@@ -23,7 +23,7 @@ public class ReceiveDataViaNetwork {
         return information;
     }
 
-    public static Doctor recieveDoctor(Socket socket, DataInputStream dataInputStream){
+    public static Doctor receiveDoctor(Socket socket, DataInputStream dataInputStream){
         //InputStream inputStream = null;
         //ObjectInputStream objectInputStream = null;
         Doctor doctor = null;

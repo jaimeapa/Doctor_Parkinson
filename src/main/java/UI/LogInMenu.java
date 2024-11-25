@@ -76,7 +76,7 @@ public class LogInMenu {
         User u = new User (email,password.getBytes(), role);
         SendDataViaNetwork.sendUser(u, dataOutputStream);
         try {
-            Doctor doctor = ReceiveDataViaNetwork.recieveDoctor(socket, dataInputStream);
+            Doctor doctor = ReceiveDataViaNetwork.receiveDoctor(socket, dataInputStream);
             if (doctor != null) {
                 if(doctor.getName().equals("name")){
                     System.out.println("User or password is incorrect");
