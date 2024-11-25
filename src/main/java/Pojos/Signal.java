@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -93,7 +94,7 @@ public class Signal {
         BufferedWriter bw = null;
         try {
             String ruta = "MeasurementsBitalino\\" + signalFilename;
-            String contenido = getValues(samplingrate).toString();
+            String contenido = getSignalValues(samplingrate).toString(); //
 
             File file = new File(ruta);
             if (!file.exists()) {
@@ -113,6 +114,18 @@ public class Signal {
                 Logger.getLogger(Signal.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+    public LinkedList<Integer> getSignalValues(int samplingRate) {
+        LinkedList<Integer> result = new LinkedList<>();
+        for (int j = 0; j < samplingRate; j++) {
+            int blockSize = samplingRate;
+            // Si necesitas esta información visual, puedes guardarla en otro lugar.
+            for (int i = 0; i < blockSize; i++) {
+                int value = j * blockSize + i;
+                result.add(values.get(value));  // Agregar los valores a la lista.
+            }
+        }
+        return result;
     }
 
     @Override

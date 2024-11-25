@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 public class Doctor implements Serializable {
+    private static final long serialVersionUID = 4092297860583387711L;
     private int doctor_id;
     private String name;
     private String surname;
