@@ -9,13 +9,15 @@ public class Doctor implements Serializable {
     private String surname;
     private LocalDate dob;
     private String email;
+    private Integer userId;
 
-    public Doctor(int doctor_id, String name, String surname, LocalDate dob, String email) {
+    public Doctor(int doctor_id, String name, String surname, LocalDate dob, String email, Integer userId) {
         this.doctor_id = doctor_id;
         this.name = name;
         this.surname = surname;
         this.dob = dob;
         this.email = email;
+        this.userId = userId;
     }
 
     public Doctor(String name, String surname, LocalDate dob, String email) {
@@ -63,6 +65,14 @@ public class Doctor implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     @Override
