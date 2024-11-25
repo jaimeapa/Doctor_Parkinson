@@ -83,7 +83,7 @@ public class LogInMenu {
                 }else {
                     System.out.println("Log in successful");
                     System.out.println(doctor.toString());
-                    clientMenu(doctor);
+                    doctorMenu(doctor);
                 }
             }
         }catch(IOException e){
@@ -99,7 +99,7 @@ public class LogInMenu {
     }
 
     private static int printLogInMenu() {
-        System.out.println("\n\nPatient Menu:\n"
+        System.out.println("\n\nDoctor Menu:\n"
                 + "\n1. Register"
                 + "\n2. Log In"
                 + "\n3. Exit"
@@ -122,15 +122,15 @@ public class LogInMenu {
         //System.out.println(patient.toString());
         SendDataViaNetwork.sendDoctor(doctor, dataOutputStream);
         SendDataViaNetwork.sendUser(u, dataOutputStream);
-        clientMenu(doctor);
+        doctorMenu(doctor);
 
     }
 
-    public static void clientMenu(Doctor doctor_logedIn) throws IOException {
+    public static void doctorMenu(Doctor doctor_logedIn) throws IOException {
         Doctor doctor = doctor_logedIn;
         boolean menu = true;
         while(menu){
-            switch(printClientMenu()){
+            switch(printDoctorMenu()){
                 case 1:{
 
                     break;
@@ -160,7 +160,7 @@ public class LogInMenu {
         return Utilities.readInteger("What do you want to measure?\n");
     }
 
-    private static int printClientMenu(){
+    private static int printDoctorMenu(){
         System.out.println("\n\nDiagnosis Menu:\n"
                 + "\n1. lol"
                 + "\n2. lol 2"
