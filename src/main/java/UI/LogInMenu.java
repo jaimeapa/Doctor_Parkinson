@@ -162,9 +162,9 @@ public class LogInMenu {
 
     private static int printDoctorMenu(){
         System.out.println("\n\nDiagnosis Menu:\n"
-                + "\n1. lol"
-                + "\n2. lol 2"
-                + "\n3. lol 3"
+                + "\n1. View patient list"
+                + "\n2. View details of a specific patient"
+                + "\n3. Assign symptoms to a patient"
                 + "\n4. Log out"
         );
         return Utilities.readInteger("What would you want to do?\n");
