@@ -83,7 +83,7 @@ public class LogInMenu {
                 }else {
                     System.out.println("Log in successful");
                     System.out.println(doctor.toString());
-                    doctorMenu(doctor);
+                    clientDoctorMenu(doctor);
                 }
             }
         }catch(IOException e){
@@ -122,11 +122,11 @@ public class LogInMenu {
         //System.out.println(patient.toString());
         SendDataViaNetwork.sendDoctor(doctor, dataOutputStream);
         SendDataViaNetwork.sendUser(u, dataOutputStream);
-        doctorMenu(doctor);
+        clientDoctorMenu(doctor);
 
     }
 
-    public static void doctorMenu(Doctor doctor_logedIn) throws IOException {
+    public static void clientDoctorMenu(Doctor doctor_logedIn) throws IOException {
         Doctor doctor = doctor_logedIn;
         boolean menu = true;
         while(menu){
