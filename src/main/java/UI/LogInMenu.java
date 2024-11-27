@@ -139,10 +139,6 @@ public class LogInMenu {
                     break;
                 }
                 case 3:{
-
-                    break;
-                }
-                case 4:{
                     menu = false;
                     SendDataViaNetwork.sendInt(4, dataOutputStream);
                     System.out.println("Closing server");
@@ -162,10 +158,9 @@ public class LogInMenu {
 
     private static int printDoctorMenu(){
         System.out.println("\n\nDiagnosis Menu:\n"
-                + "\n1. View patient list"
-                + "\n2. View details of a specific patient"
-                + "\n3. Assign symptoms to a patient"
-                + "\n4. Log out"
+                + "\n1. View details of a specific patient"
+                + "\n2. Make an interpretation of the results"
+                + "\n3. Log out"
         );
         return Utilities.readInteger("What would you want to do?\n");
     }
