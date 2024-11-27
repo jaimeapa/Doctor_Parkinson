@@ -12,12 +12,13 @@ public class Patient implements Serializable {
     private LocalDate dob;
     private String email;
     private Signal Signal;
+    private int doctor_id;
     private LinkedList<Symptoms>  symptoms;
     private LinkedList<Integer> values_EDA;
     private LinkedList<Integer> values_EMG;
     public static final int samplingrate = 100;
 
-    public Patient(int patient_id, String name, String surname, LocalDate dob, String email,LinkedList<Symptoms>  symptoms) {
+    public Patient(int patient_id, String name, String surname, LocalDate dob, String email,LinkedList<Symptoms>  symptoms, int doctor_id) {
         this.patient_id = patient_id;
         this.name = name;
         this.surname = surname;
@@ -26,6 +27,7 @@ public class Patient implements Serializable {
         this.symptoms = new LinkedList<>();
         this.values_EDA = new LinkedList<>();
         this.values_EMG = new LinkedList<>();
+        this.doctor_id = doctor_id;
     }
 
     public Patient(String name, String surname, LocalDate dob, String email) {
@@ -41,8 +43,14 @@ public class Patient implements Serializable {
         this.dob = dob;
         this.email = email;
     }
-
-
+    public Patient(int patient_id, String name, String surname, LocalDate dob, String email, int doctor_id) {
+        this.patient_id = patient_id;
+        this.name = name;
+        this.surname = surname;
+        this.dob = dob;
+        this.email = email;
+        this.doctor_id = doctor_id;
+    }
 
     public int getPatient_id() {
         return patient_id;
@@ -116,6 +124,9 @@ public class Patient implements Serializable {
         this.values_EMG = values_EMG;
     }
 
+    public void setDoctor_id(int doctor_id) { this.doctor_id = doctor_id; }
+
+    public int getDoctor_id() { return doctor_id; }
 
     @Override
     public String toString() {

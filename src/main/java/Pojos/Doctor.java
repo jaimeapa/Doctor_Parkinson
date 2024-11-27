@@ -2,6 +2,7 @@ package Pojos;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.LinkedList;
 
 public class Doctor implements Serializable {
     private static final long serialVersionUID = 4092297860583387711L;
@@ -11,6 +12,7 @@ public class Doctor implements Serializable {
     private LocalDate dob;
     private String email;
     private Integer userId;
+    private LinkedList<Patient> patients;
 
     public Doctor(int doctor_id, String name, String surname, LocalDate dob, String email, Integer userId) {
         this.doctor_id = doctor_id;
@@ -19,6 +21,7 @@ public class Doctor implements Serializable {
         this.dob = dob;
         this.email = email;
         this.userId = userId;
+        patients= new LinkedList<>();
     }
 
     public Doctor(String name, String surname, LocalDate dob, String email) {
@@ -26,6 +29,7 @@ public class Doctor implements Serializable {
         this.surname = surname;
         this.dob = dob;
         this.email = email;
+        patients= new LinkedList<>();
     }
 
     public int getDoctor_id() {
@@ -76,6 +80,12 @@ public class Doctor implements Serializable {
         this.userId = userId;
     }
 
+    public LinkedList<Patient> getPatients() {
+        return patients;
+    }
+     public void setPatients(LinkedList<Patient> patients) {
+            this.patients = patients;
+     }
     @Override
     public String toString() {
         return "Doctor{" +
