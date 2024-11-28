@@ -128,11 +128,34 @@ public class LogInMenu {
 
     public static void clientDoctorMenu(Doctor doctor_logedIn) throws IOException {
         Doctor doctor = doctor_logedIn;
+        Patient patient = null;
         boolean menu = true;
         while(menu){
             switch(printDoctorMenu()){
                 case 1:{
-
+                    SendDataViaNetwork.sendInt(1, dataOutputStream);
+                    int size = ReceiveDataViaNetwork.receiveInt(socket, dataInputStream);
+                    for(int i = 0; i < size; i++){
+                       patient = ReceiveDataViaNetwork.recievePatient(socket, dataInputStream);
+                        System.out.println(patient.toString2());
+                    }
+                    System.out.println("Select the id of the patient from which you want to see the information");
+                    boolean mandarID = true;
+                    scanner = new Scanner(System.in);
+                    int patientID;
+                    while (mandarID) {
+                        patientID = scanner.nextInt();
+                        if (patientID > 0 && patientID < size+1) {
+                            mandarID = false;
+                            SendDataViaNetwork.sendInt(patientID, dataOutputStream);
+                        }
+                        else{
+                            System.out.println("There are no patients with that ID!");
+                            System.out.println("Select the id of the patient from which you want to see the information");
+                        }
+                    }
+                    patient = ReceiveDataViaNetwork.recievePatient(socket, dataInputStream);
+                    System.out.println(patient.toString());
                     break;
                 }
                 case 2:{

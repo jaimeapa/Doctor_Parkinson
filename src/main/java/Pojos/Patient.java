@@ -142,4 +142,12 @@ public class Patient implements Serializable {
                 ", values_EMG=" + values_EMG +
                 '}';
     }
+
+    public String toString2(){
+        return "Patient{" +
+                "patient_id=" + patient_id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname +
+                '}';
+    }
 }
