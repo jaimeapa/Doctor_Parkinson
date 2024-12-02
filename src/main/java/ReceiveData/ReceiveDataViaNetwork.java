@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 public class ReceiveDataViaNetwork {
 
-    public static String receiveString(Socket socket, BufferedReader bufferedReader) throws IOException {
+    public static String receiveString(BufferedReader bufferedReader) throws IOException {
 
         String line = "";
         String information = "";
@@ -23,7 +23,7 @@ public class ReceiveDataViaNetwork {
         return information;
     }
 
-    public static Doctor receiveDoctor(Socket socket, DataInputStream dataInputStream){
+    public static Doctor receiveDoctor(DataInputStream dataInputStream){
         //InputStream inputStream = null;
         //ObjectInputStream objectInputStream = null;
         Doctor doctor = null;
@@ -51,7 +51,7 @@ public class ReceiveDataViaNetwork {
         }
         return doctor;
     }
-    public static Patient recievePatient(Socket socket, DataInputStream dataInputStream){
+    public static Patient recievePatient(DataInputStream dataInputStream){
         //InputStream inputStream = null;
         //ObjectInputStream objectInputStream = null;
         Patient patient = null;
@@ -79,7 +79,7 @@ public class ReceiveDataViaNetwork {
         }
         return patient;
     }
-    public static int receiveInt(Socket socket, DataInputStream dataInputStream) throws IOException{
+    public static int receiveInt(DataInputStream dataInputStream) throws IOException{
         //InputStream inputStream = socket.getInputStream();
         //DataInputStream dataInputStream = new DataInputStream(inputStream);
         int message=-1;

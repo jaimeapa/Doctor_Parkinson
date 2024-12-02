@@ -76,7 +76,7 @@ public class LogInMenu {
         User u = new User (email,password.getBytes(), role);
         SendDataViaNetwork.sendUser(u, dataOutputStream);
         try {
-            Doctor doctor = ReceiveDataViaNetwork.receiveDoctor(socket, dataInputStream);
+            Doctor doctor = ReceiveDataViaNetwork.receiveDoctor(dataInputStream);
             if (doctor != null) {
                 if(doctor.getName().equals("name")){
                     System.out.println("User or password is incorrect");
@@ -134,9 +134,9 @@ public class LogInMenu {
             switch(printDoctorMenu()){
                 case 1:{
                     SendDataViaNetwork.sendInt(1, dataOutputStream);
-                    int size = ReceiveDataViaNetwork.receiveInt(socket, dataInputStream);
+                    int size = ReceiveDataViaNetwork.receiveInt(dataInputStream);
                     for(int i = 0; i < size; i++){
-                       patient = ReceiveDataViaNetwork.recievePatient(socket, dataInputStream);
+                       patient = ReceiveDataViaNetwork.recievePatient(dataInputStream);
                         System.out.println(patient.toString2());
                     }
                     System.out.println("Select the id of the patient from which you want to see the information");
@@ -154,7 +154,7 @@ public class LogInMenu {
                             System.out.println("Select the id of the patient from which you want to see the information");
                         }
                     }
-                    patient = ReceiveDataViaNetwork.recievePatient(socket, dataInputStream);
+                    patient = ReceiveDataViaNetwork.recievePatient(dataInputStream);
                     System.out.println(patient.toString());
                     break;
                 }
