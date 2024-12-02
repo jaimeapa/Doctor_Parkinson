@@ -12,7 +12,6 @@ public class Interpretation {
     private String interpretation;
     private List<Symptoms> symptoms;
     private Signal signal;
-
     private int patient_id;
     private int doctor_id;
 
