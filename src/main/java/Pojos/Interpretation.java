@@ -1,6 +1,7 @@
 package Pojos;
 
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import Pojos.Signal.SignalType;
@@ -52,14 +53,15 @@ public class Interpretation {
     }
 
     public String analyzeBitalinoData(List<Integer> rawValues, SignalType signalType) {
-        List<Integer> filteredValues = rawValues.stream()
-                .filter(value -> value >= 50 && value <= 900)
-                .collect(Collectors.toList());
-
+        List<Integer> filteredValues = new LinkedList<>();
+        for (Integer value : rawValues) {
+            if (value >= 50 && value <= 900) {
+                filteredValues.add(value);
+            }
+        }
         if (filteredValues.isEmpty()) {
             return "No valid data to analyze.";
         }
-
         if (signalType == SignalType.EMG) {
             return analyzeEMG(filteredValues);
         } else if (signalType == SignalType.EDA) {
@@ -74,44 +76,61 @@ public class Interpretation {
     }
 
     private String analyzeEMG(List<Integer> emgValues) {
-        double average = emgValues.stream().mapToDouble(Integer::doubleValue).average().orElse(0.0);
-        int max = emgValues.stream().mapToInt(Integer::intValue).max().orElse(0);
-
-        StringBuilder analysis = new StringBuilder();
-        analysis.append("EMG Analysis:\n");
-        analysis.append("Average Amplitude: ").append(String.format("%.2f µV", average)).append("\n");
-        analysis.append("Max Amplitude: ").append(max).append(" µV\n");
-
-        if (max > 500) {
-            analysis.append("Observation: High muscle activity, possible tremors detected.\n");
-        } else if (average < 100) {
-            analysis.append("Observation: Low muscle activity, possible rigidity or bradykinesia.\n");
-        } else {
-            analysis.append("Observation: Normal muscle activity.\n");
+        double total = 0;
+        double max = 0;
+        for (int value : emgValues) {
+            double convertedValue = convertRawValue(value);
+            total += convertedValue;
+            if (convertedValue > max) {
+                max = convertedValue;
+            }
         }
-
-        return analysis.toString();
+        double average = 0;
+        if (!emgValues.isEmpty()) {
+            average = total / emgValues.size();
+        }
+        String observation;
+        if (max > 500) {
+            observation = "High muscle activity, possible tremors detected.";
+        } else if (average < 100) {
+            observation = "Low muscle activity, possible rigidity or bradykinesia.";
+        } else {
+            observation = "Normal muscle activity.";
+        }
+        return "EMG Analysis:\n" +
+                "Average Amplitude: " + String.format("%.2f µV", average) + "\n" +
+                "Max Amplitude: " + String.format("%.2f µV", max) + "\n" +
+                "Observation: " + observation + "\n";
     }
 
     private String analyzeEDA(List<Integer> edaValues) {
-        double average = edaValues.stream().mapToDouble(Integer::doubleValue).average().orElse(0.0);
-        int max = edaValues.stream().mapToInt(Integer::intValue).max().orElse(0);
-
-        StringBuilder analysis = new StringBuilder();
-        analysis.append("EDA Analysis:\n");
-        analysis.append("Average Conductance: ").append(String.format("%.2f µS", average)).append("\n");
-        analysis.append("Max Conductance: ").append(max).append(" µS\n");
-
-        if (average < 1.0) {
-            analysis.append("Observation: Low autonomic response, indicative of reduced stress.\n");
-        } else if (max > 15) {
-            analysis.append("Observation: High autonomic response, possible stress detected.\n");
-        } else {
-            analysis.append("Observation: Normal autonomic activity.\n");
+        double total = 0;
+        double max = 0;
+        for (int value : edaValues) {
+            double convertedValue = convertRawValue(value);
+            total += convertedValue;
+            if (convertedValue > max) {
+                max = convertedValue;
+            }
         }
-
-        return analysis.toString();
+        double average = 0;
+        if (!edaValues.isEmpty()) {
+            average= total / edaValues.size();
+        }
+        String observation;
+        if (average < 1.0) {
+            observation = "Reduced autonomic response detected.";
+        } else if (max > 15) {
+            observation = "High autonomic response, possible stress detected.";
+        } else {
+            observation = "Normal autonomic activity.";
+        }
+        return "EDA Analysis:\n" +
+                "Average Conductance: " + String.format("%.2f µS", average) + "\n" +
+                "Max Conductance: " + String.format("%.2f µS", max) + "\n" +
+                "Observation: " + observation + "\n";
     }
+
 
     @Override
     public String toString() {
