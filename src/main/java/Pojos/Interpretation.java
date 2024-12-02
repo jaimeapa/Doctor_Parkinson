@@ -91,11 +91,11 @@ public class Interpretation {
         }
         String observation;
         if (max > 500) {
-            observation = "High muscle activity, possible tremors detected.";
+            observation = "I have detected a high muscle activity, possible tremors have been detected.";
         } else if (average < 100) {
-            observation = "Low muscle activity, possible rigidity or bradykinesia.";
+            observation = "You have a low muscle activity, that can mean possible rigidity or bradykinesia.";
         } else {
-            observation = "Normal muscle activity.";
+            observation = "Normal muscle activity, no problems detected in this observation.";
         }
         return "EMG Analysis:\n" +
                 "Average Amplitude: " + String.format("%.2f µV", average) + "\n" +
@@ -119,11 +119,11 @@ public class Interpretation {
         }
         String observation;
         if (average < 1.0) {
-            observation = "Reduced autonomic response detected.";
+            observation = "Reduced autonomic response have been detected.";
         } else if (max > 15) {
-            observation = "High autonomic response, possible stress detected.";
+            observation = "You have a high autonomic response which probably is caused by stress.";
         } else {
-            observation = "Normal autonomic activity.";
+            observation = "Normal autonomic activity detected in this observation.";
         }
         return "EDA Analysis:\n" +
                 "Average Conductance: " + String.format("%.2f µS", average) + "\n" +
