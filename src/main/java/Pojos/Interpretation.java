@@ -9,14 +9,23 @@ import Pojos.Signal.SignalType;
 public class Interpretation {
 
     private LocalDate date;
-    private Patient patient;
-    private Doctor doctor;
     private String interpretation;
+    private List<Symptoms> symptoms;
+    private Signal signal;
 
-    public Interpretation(LocalDate date, Patient patient, Doctor doctor, String interpretation) {
+    private int patient_id;
+    private int doctor_id;
+
+    public Interpretation(LocalDate date, String interpretation, List<Symptoms> symptoms, Signal signal, int patient_id, int doctor_id) {
         this.date = date;
-        this.patient = patient;
-        this.doctor = doctor;
+        this.interpretation = interpretation;
+        this.symptoms = symptoms;
+        this.signal = signal;
+        this.patient_id = patient_id;
+        this.doctor_id = doctor_id;
+    }
+    public Interpretation(LocalDate date, String interpretation) {
+        this.date = date;
         this.interpretation = interpretation;
     }
 
@@ -28,28 +37,44 @@ public class Interpretation {
         this.date = date;
     }
 
-    public Patient getPatient() {
-        return patient;
-    }
-
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
-
-    public Doctor getDoctor() {
-        return doctor;
-    }
-
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
-    }
-
     public String getInterpretation() {
         return interpretation;
     }
 
     public void setInterpretation(String interpretation) {
         this.interpretation = interpretation;
+    }
+
+    public List<Symptoms> getSymptoms() {
+        return symptoms;
+    }
+
+    public void setSymptoms(List<Symptoms> symptoms) {
+        this.symptoms = symptoms;
+    }
+
+    public Signal getSignal() {
+        return signal;
+    }
+
+    public void setSignal(Signal signal) {
+        this.signal = signal;
+    }
+
+    public int getPatient_id() {
+        return patient_id;
+    }
+
+    public void setPatient_id(int patient_id) {
+        this.patient_id = patient_id;
+    }
+
+    public int getDoctor_id() {
+        return doctor_id;
+    }
+
+    public void setDoctor_id(int doctor_id) {
+        this.doctor_id = doctor_id;
     }
 
     public String analyzeBitalinoData(List<Integer> rawValues, SignalType signalType) {
@@ -143,16 +168,16 @@ public class Interpretation {
                 "Observation: " + observation + "\n";
     }
 
-
-
     @Override
     public String toString() {
         return "Interpretation{" +
                 "date=" + date +
-                ", patient=" + patient +
-                ", doctor=" + doctor +
+                ", patient_id=" + patient_id +
+                ", doctor_id=" + doctor_id +
                 ", interpretation='" + interpretation + '\'' +
                 '}';
     }
+
+
 }
 
