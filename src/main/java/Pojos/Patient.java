@@ -16,10 +16,7 @@ public class Patient implements Serializable {
     private String email;
     private Signal Signal;
     private int doctor_id;
-    private LinkedList<Symptoms>  symptoms;
-    private LinkedList<Integer> values_EDA;
-    private LinkedList<Integer> values_EMG;
-    public static final int samplingrate = 100;
+
 
     public Patient(int patient_id, String name, String surname, LocalDate dob, String email,LinkedList<Symptoms>  symptoms, int doctor_id) {
         this.patient_id = patient_id;
@@ -27,9 +24,6 @@ public class Patient implements Serializable {
         this.surname = surname;
         this.dob = dob;
         this.email = email;
-        this.symptoms = new LinkedList<>();
-        this.values_EDA = new LinkedList<>();
-        this.values_EMG = new LinkedList<>();
         this.doctor_id = doctor_id;
     }
 
@@ -45,14 +39,6 @@ public class Patient implements Serializable {
         this.surname = surname;
         this.dob = dob;
         this.email = email;
-    }
-    public Patient(int patient_id, String name, String surname, LocalDate dob, String email, int doctor_id) {
-        this.patient_id = patient_id;
-        this.name = name;
-        this.surname = surname;
-        this.dob = dob;
-        this.email = email;
-        this.doctor_id = doctor_id;
     }
 
     public int getPatient_id() {
@@ -77,18 +63,6 @@ public class Patient implements Serializable {
 
     public Pojos.Signal getSignal() {
         return Signal;
-    }
-
-    public LinkedList<Symptoms> getSymptoms() {
-        return symptoms;
-    }
-
-    public LinkedList<Integer> getValues_EDA() {
-        return values_EDA;
-    }
-
-    public LinkedList<Integer> getValues_EMG() {
-        return values_EMG;
     }
 
     public void setPatient_id(int patient_id) {
@@ -121,18 +95,6 @@ public class Patient implements Serializable {
         Signal = signal;
     }
 
-    public void setSymptoms(LinkedList<Symptoms> symptoms) {
-        this.symptoms = symptoms;
-    }
-
-    public void setValues_EDA(LinkedList<Integer> values_EDA) {
-        this.values_EDA = values_EDA;
-    }
-
-    public void setValues_EMG(LinkedList<Integer> values_EMG) {
-        this.values_EMG = values_EMG;
-    }
-
     public void setDoctor_id(int doctor_id) { this.doctor_id = doctor_id; }
 
     public int getDoctor_id() { return doctor_id; }
@@ -146,9 +108,6 @@ public class Patient implements Serializable {
                 ", dob=" + dob +
                 ", email='" + email + '\'' +
                 ", Signal=" + Signal +
-                ", symptoms=" + symptoms +
-                ", values_EDA=" + values_EDA +
-                ", values_EMG=" + values_EMG +
                 '}';
     }
 

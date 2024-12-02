@@ -14,6 +14,7 @@ public class Interpretation {
     private Signal signal;
     private int patient_id;
     private int doctor_id;
+    public static final int samplingrate = 100;
 
     public Interpretation(LocalDate date, String interpretation, List<Symptoms> symptoms, Signal signal, int patient_id, int doctor_id) {
         this.date = date;
