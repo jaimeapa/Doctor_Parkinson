@@ -34,6 +34,14 @@ public class Doctor implements Serializable {
         this.email = email;
         patients= new LinkedList<>();
     }
+    public Doctor(int id, String name, String surname, LocalDate dob, String email) {
+        this.doctor_id = id;
+        this.name = name;
+        this.surname = surname;
+        this.dob = dob;
+        this.email = email;
+        patients= new LinkedList<>();
+    }
 
     public int getDoctor_id() {
         return doctor_id;

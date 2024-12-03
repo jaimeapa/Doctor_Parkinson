@@ -116,10 +116,11 @@ public class LogInMenu {
         LocalDate dob = Utilities.readDate("Enter your date of birth: ");
         System.out.println(dob.toString());
         String email = Utilities.readString("Enter your email: ");
-        doctor = new Doctor(name,surname,dob,email);
+        doctor = new Doctor(1,name,surname,dob,email);
         String password = Utilities.readString("Enter your password: ");
         u = new User(email, password.getBytes(), role);
-        //System.out.println(patient.toString());
+        System.out.println(doctor.toString());
+        System.out.println(u.toString());
         SendDataViaNetwork.sendDoctor(doctor, dataOutputStream);
         SendDataViaNetwork.sendUser(u, dataOutputStream);
         clientDoctorMenu(doctor);

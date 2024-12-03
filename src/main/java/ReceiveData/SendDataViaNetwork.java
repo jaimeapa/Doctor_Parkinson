@@ -49,6 +49,7 @@ public class SendDataViaNetwork {
             /*objectOutputStream.writeObject(patient);
             objectOutputStream.flush();
             objectOutputStream.reset();*/
+            dataOutputStream.writeInt(doctor.getDoctor_id());
             dataOutputStream.writeUTF(doctor.getName());
             dataOutputStream.writeUTF(doctor.getSurname());
             dataOutputStream.writeUTF(doctor.getDob().toString());
