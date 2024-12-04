@@ -27,13 +27,14 @@ public class ReceiveDataViaNetwork {
 
         try {
             //Object tmp;
+            int id = dataInputStream.readInt();
             String name = dataInputStream.readUTF();
             String surname = dataInputStream.readUTF();
             String date = dataInputStream.readUTF();
             String email = dataInputStream.readUTF();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate dob = LocalDate.parse(date, formatter);
-            doctor = new Doctor(name,surname,dob,email);
+            doctor = new Doctor(id,name,surname,dob,email);
 
             //patient = (Patient) objectInputStream.readObject();
         } catch (EOFException ex) {
@@ -43,9 +44,7 @@ public class ReceiveDataViaNetwork {
             ex.printStackTrace();
             //Logger.getLogger(ReceiveClientViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if(doctor != null){
-            System.out.println(doctor.toString()   );
-        }
+
         return doctor;
     }
     public static Patient recievePatient(DataInputStream dataInputStream){
@@ -55,13 +54,14 @@ public class ReceiveDataViaNetwork {
 
         try {
             //Object tmp;
+            int id  = dataInputStream.readInt();
             String name = dataInputStream.readUTF();
             String surname = dataInputStream.readUTF();
             String date = dataInputStream.readUTF();
             String email = dataInputStream.readUTF();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate dob = LocalDate.parse(date, formatter);
-            patient = new Patient(name,surname,dob,email);
+            patient = new Patient(id,name,surname,dob,email);
 
             //patient = (Patient) objectInputStream.readObject();
         } catch (EOFException ex) {
@@ -71,9 +71,7 @@ public class ReceiveDataViaNetwork {
             ex.printStackTrace();
             //Logger.getLogger(ReceiveClientViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if(patient != null){
-            System.out.println(patient.toString()   );
-        }
+
         return patient;
     }
     public static int receiveInt(DataInputStream dataInputStream) throws IOException{

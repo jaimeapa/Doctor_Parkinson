@@ -136,25 +136,30 @@ public class LogInMenu {
                 case 1:{
                     SendDataViaNetwork.sendInt(1, dataOutputStream);
                     int size = ReceiveDataViaNetwork.receiveInt(dataInputStream);
-                    for(int i = 0; i < size; i++){
-                       patient = ReceiveDataViaNetwork.recievePatient(dataInputStream);
-                        System.out.println(patient.toString2());
-                    }
-                    boolean mandarID = true;
-                    int patientID;
-                    while (mandarID) {
-                        patientID = Utilities.readInteger("Select the id of the patient from which you want to see the information");
-                        if (patientID > 0 && patientID < size+1) {
-                            mandarID = false;
-                            SendDataViaNetwork.sendInt(patientID, dataOutputStream);
+                    System.out.println("Receiving " + size + " patients");
+                    if(size > 0) {
+                        for (int i = 0; i < size; i++) {
+                            patient = ReceiveDataViaNetwork.recievePatient(dataInputStream);
+                            System.out.println(i + 1 + ". " + patient.getSurname() + ", " + patient.getName());
                         }
-                        else{
-                            System.out.println("There are no patients with that ID!");
-                            System.out.println("Select the id of the patient from which you want to see the information");
+                        boolean mandarID = true;
+                        int patientID;
+                        while (mandarID) {
+                            patientID = Utilities.readInteger("Select the id of the patient from which you want to see the information");
+                            if (patientID > 0 && patientID < size + 1) {
+                                mandarID = false;
+                                SendDataViaNetwork.sendInt(patientID - 1, dataOutputStream);
+                            } else {
+                                System.out.println("There are no patients with that ID!");
+                                System.out.println("Select the id of the patient from which you want to see the information");
+                            }
                         }
+                        patient = ReceiveDataViaNetwork.recievePatient(dataInputStream);
+                        System.out.println(patient.toString());
+                    }else{
+                        System.out.println("You have no patients assigned to you");
                     }
-                    patient = ReceiveDataViaNetwork.recievePatient(dataInputStream);
-                    System.out.println(patient.toString());
+
                     break;
                 }
                 case 2:{
