@@ -13,10 +13,7 @@ import java.util.logging.Logger;
 
 public class Signal {
     private List<Integer> values;
-    private String patientName;
-    private LocalDate beginDate;
-
-    private String signalFilename;
+    private String filename;
     private SignalType signalType;
     public static final int samplingrate = 100;
 
@@ -25,11 +22,13 @@ public class Signal {
         EDA
     }
 
-    public Signal(List<Integer> values, String patientName, LocalDate beginDate, String SignalFilename, SignalType signalType) {
+    public Signal(SignalType signalType) {
+        this.values = new LinkedList<>();
+        this.signalType = signalType;
+    }
+
+    public Signal(List<Integer> values, SignalType signalType) {
         this.values = values;
-        this.patientName = patientName;
-        this.beginDate = beginDate;
-        this.signalFilename = SignalFilename;
         this.signalType = signalType;
     }
 
@@ -37,34 +36,19 @@ public class Signal {
         return values;
     }
 
-    public void setValues(List<Integer> values) {
-        this.values = values;
+    public void setValuesEMG(String stringEMG) {
+        this.values = stringToValues(stringEMG);
+    }
+    public void setValuesEDA(String stringEDA) {
+        this.values = stringToValues(stringEDA);
     }
 
-    public String getPatientName() {
-        return patientName;
+    public String getFilename() {
+        return filename;
     }
 
-    public void setPatientName(String patientName) {
-        this.patientName = patientName;
-    }
-
-    public LocalDate getBeginDate() {
-        return beginDate;
-    }
-
-    public void setBeginDate(LocalDate beginDate) {
-        this.beginDate = beginDate;
-    }
-
-
-
-    public String getSignalFilename() {
-        return signalFilename;
-    }
-
-    public void setSignalFilename(String SignalFilename) {
-        this.signalFilename = SignalFilename;
+    public void setFilename(String Filename) {
+        this.filename = Filename;
     }
 
     public SignalType getSignalType() {
@@ -75,7 +59,36 @@ public class Signal {
         this.signalType = signalType;
     }
 
-    private String createFilename() {
+    public  List<Integer> stringToValues(String str) {
+        values.clear(); // Limpiamos la lista antes de agregar nuevos valores.
+        String[] tokens = str.split(" "); // Dividimos el String por el espacio.
+
+        for (String token : tokens) {
+            try {
+                values.add(Integer.parseInt(token)); // Convertimos cada fragmento a Integer y lo agregamos a la LinkedList.
+            } catch (NumberFormatException e) {
+                // Manejo de error si algún valor no es un Integer válido.
+                System.out.println("Error al convertir el valor: " + token);
+            }
+        }
+
+        return values;
+    }
+    public String valuesToString() {
+        StringBuilder message = new StringBuilder();
+        String separator = " ";
+
+        for (int i = 0; i < values.size(); i++) {
+            message.append(values.get(i));
+            if (i < values.size() - 1) {
+                message.append(separator);
+            }
+        }
+
+        return message.toString();
+    }
+
+    /*private String createFilename() {
         Calendar c = Calendar.getInstance();
         String day = Integer.toString(c.get(Calendar.DATE));
         String month = Integer.toString(c.get(Calendar.MONTH));
@@ -126,16 +139,13 @@ public class Signal {
             }
         }
         return result;
-    }
+    }*/
 
     @Override
     public String toString() {
         return "Signal{" +
                 "values=" + values +
-                ", patientName='" + patientName + '\'' +
-                ", beginDate=" + beginDate +
-                ", SignalFilename='" + signalFilename + '\'' +
-                ", signalType=" + signalType +
+                ", Filename='" + filename + '\'' +
                 '}';
     }
 }

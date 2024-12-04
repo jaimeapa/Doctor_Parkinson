@@ -7,26 +7,52 @@ import java.util.stream.Collectors;
 import Pojos.Signal.SignalType;
 
 public class Interpretation {
-
+    private int id;
     private LocalDate date;
-    private String interpretation;
-    private List<Symptoms> symptoms;
-    private Signal signal;
     private int patient_id;
     private int doctor_id;
+    private Signal signalEMG;
+    private Signal signalEDA;
+    private String interpretation;
+    private List<Symptoms> symptoms;
+    private String observation;
     public static final int samplingrate = 100;
 
-    public Interpretation(LocalDate date, String interpretation, List<Symptoms> symptoms, Signal signal, int patient_id, int doctor_id) {
+
+    public Interpretation(int id, LocalDate date,String interpretation,Signal signalEMG, Signal signalEDA, int patient_id, int doctor_id, String observation) {
+        this.id = id;
         this.date = date;
         this.interpretation = interpretation;
-        this.symptoms = symptoms;
-        this.signal = signal;
+        this.symptoms = new LinkedList<>();
+        this.signalEMG = signalEMG;
+        this.signalEDA = signalEDA;
         this.patient_id = patient_id;
         this.doctor_id = doctor_id;
+        this.observation = observation;
     }
+
+    public Interpretation(LocalDate date, String interpretation, Signal signalEMG, Signal signalEDA, int patient_id, int doctor_id, String observation) {
+        this.date = date;
+        this.interpretation = interpretation;
+        this.symptoms = new LinkedList<>();
+        this.signalEMG = signalEMG;
+        this.signalEDA = signalEDA;
+        this.patient_id = patient_id;
+        this.doctor_id = doctor_id;
+        this.observation = observation;
+    }
+
     public Interpretation(LocalDate date, String interpretation) {
         this.date = date;
         this.interpretation = interpretation;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public LocalDate getDate() {
@@ -35,30 +61,6 @@ public class Interpretation {
 
     public void setDate(LocalDate date) {
         this.date = date;
-    }
-
-    public String getInterpretation() {
-        return interpretation;
-    }
-
-    public void setInterpretation(String interpretation) {
-        this.interpretation = interpretation;
-    }
-
-    public List<Symptoms> getSymptoms() {
-        return symptoms;
-    }
-
-    public void setSymptoms(List<Symptoms> symptoms) {
-        this.symptoms = symptoms;
-    }
-
-    public Signal getSignal() {
-        return signal;
-    }
-
-    public void setSignal(Signal signal) {
-        this.signal = signal;
     }
 
     public int getPatient_id() {
@@ -75,6 +77,46 @@ public class Interpretation {
 
     public void setDoctor_id(int doctor_id) {
         this.doctor_id = doctor_id;
+    }
+
+    public String getInterpretation() {
+        return interpretation;
+    }
+
+    public List<Symptoms> getSymptoms() {
+        return symptoms;
+    }
+
+    public String getObservation() {
+        return observation;
+    }
+
+    public void setSymptoms(List<Symptoms> symptoms) {
+        this.symptoms = symptoms;
+    }
+
+    public void setInterpretation(String interpretation) {
+        this.interpretation = interpretation;
+    }
+
+    public Signal getSignalEMG() {
+        return signalEMG;
+    }
+
+    public void setSignalEMG(Signal signalEMG) {
+        this.signalEMG = signalEMG;
+    }
+
+    public Signal getSignalEDA() {
+        return signalEDA;
+    }
+
+    public void setSignalEDA(Signal signalEDA) {
+        this.signalEDA = signalEDA;
+    }
+
+    public void setObservation(String observation) {
+        this.observation = observation;
     }
 
     public String analyzeBitalinoData(List<Integer> rawValues, SignalType signalType) {
@@ -172,9 +214,18 @@ public class Interpretation {
     public String toString() {
         return "Interpretation{" +
                 "date=" + date +
-                ", patient_id=" + patient_id +
-                ", doctor_id=" + doctor_id +
                 ", interpretation='" + interpretation + '\'' +
+                ", signalEMG='" + signalEMG + '\'' +
+                ", signalEDA='" + signalEDA + '\'' +
+                ", symptoms=" + symptoms +
+                ", observation='" + observation + '\'' +
+                '}';
+    }
+
+    public String toString2() {
+        return "Interpretation{" +
+                "id='" + id + '\'' +
+                ",date=" + date + '\'' +
                 '}';
     }
 

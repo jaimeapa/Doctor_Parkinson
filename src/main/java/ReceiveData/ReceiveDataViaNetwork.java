@@ -1,9 +1,6 @@
 package ReceiveData;
 
-import Pojos.Doctor;
-import Pojos.Patient;
-import Pojos.Role;
-import Pojos.User;
+import Pojos.*;
 
 import java.io.*;
 import java.net.Socket;
@@ -93,6 +90,40 @@ public class ReceiveDataViaNetwork {
             //Logger.getLogger(ReceiveClientViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
         }
         return message;
+    }
+
+    public static Interpretation recieveInterpretation(DataInputStream dataInputStream){
+        //InputStream inputStream = null;
+        //ObjectInputStream objectInputStream = null;
+        Interpretation interpretation = null;
+
+        try {
+            //Object tmp;
+            String stringDate = dataInputStream.readUTF();
+            int doctor_id = dataInputStream.readInt();
+            String stringEMG = dataInputStream.readUTF();
+            int patient_id = dataInputStream.readInt();
+            String stringEDA = dataInputStream.readUTF();
+            String observation = dataInputStream.readUTF();
+            String interpretation1 = dataInputStream.readUTF();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate date = LocalDate.parse(stringDate, formatter);
+            Signal signalEMG = new Signal(Signal.SignalType.EMG);
+            signalEMG.setValuesEMG(stringEMG);
+            Signal signalEDA = new Signal(Signal.SignalType.EDA);
+            signalEDA.setValuesEDA(stringEDA);
+            interpretation = new Interpretation(date, interpretation1, signalEMG, signalEDA, patient_id, doctor_id, observation);
+
+            //patient = (Patient) objectInputStream.readObject();
+        } catch (EOFException ex) {
+            System.out.println("All data have been correctly read.");
+        } catch (IOException  ex) {
+            System.out.println("Unable to read from the client.");
+            ex.printStackTrace();
+            //Logger.getLogger(ReceiveClientViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return interpretation;
     }
 
     public static User recieveUser(DataInputStream dataInputStream)
