@@ -217,6 +217,15 @@ public class LogInMenu {
                     }
                 }
                 interpretation = ReceiveDataViaNetwork.recieveInterpretation(dataInputStream);
+
+                int size3 = ReceiveDataViaNetwork.receiveInt(dataInputStream);
+                if(size3 > 0) {
+                    for (int i = 0; i < size3; i++) {
+                       String symptoms= ReceiveDataViaNetwork.receiveString(dataInputStream);
+                       interpretation.addSymptom(new Symptoms(symptoms));
+                    }
+
+                }
                 System.out.println(interpretation.toString());
                 String interpretation2 = Utilities.readString("Write here your interpretation: ");
                 SendDataViaNetwork.sendStrings(interpretation2, dataOutputStream);

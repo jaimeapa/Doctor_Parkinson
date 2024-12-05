@@ -111,6 +111,10 @@ public class Interpretation {
         return signalEDA;
     }
 
+    public void addSymptom(Symptoms symptom){
+        this.symptoms.add(symptom);
+    }
+
     public void setSignalEDA(Signal signalEDA) {
         this.signalEDA = signalEDA;
     }
