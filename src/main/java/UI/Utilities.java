@@ -61,14 +61,4 @@ public class Utilities {
             }
         }
     }
-    public static Patient registerPatientData()
-    {
-        Patient patient = null;
-
-
-        return patient;
-    }
-
-
-
 }

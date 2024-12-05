@@ -12,17 +12,12 @@ import java.util.logging.Logger;
 public class ReceiveDataViaNetwork {
 
     public static String receiveString(DataInputStream dataInputStream) throws IOException {
-
-        //String line = "";
         String information = "";
         information = dataInputStream.readUTF();
-        //System.out.println(information);
         return information;
     }
 
     public static Doctor receiveDoctor(DataInputStream dataInputStream){
-        //InputStream inputStream = null;
-        //ObjectInputStream objectInputStream = null;
         Doctor doctor = null;
 
         try {
@@ -35,8 +30,6 @@ public class ReceiveDataViaNetwork {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate dob = LocalDate.parse(date, formatter);
             doctor = new Doctor(id,name,surname,dob,email);
-
-            //patient = (Patient) objectInputStream.readObject();
         } catch (EOFException ex) {
             System.out.println("All data have been correctly read.");
         } catch (IOException  ex) {
@@ -48,12 +41,9 @@ public class ReceiveDataViaNetwork {
         return doctor;
     }
     public static Patient recievePatient(DataInputStream dataInputStream){
-        //InputStream inputStream = null;
-        //ObjectInputStream objectInputStream = null;
         Patient patient = null;
 
         try {
-            //Object tmp;
             int id  = dataInputStream.readInt();
             String name = dataInputStream.readUTF();
             String surname = dataInputStream.readUTF();
@@ -62,8 +52,6 @@ public class ReceiveDataViaNetwork {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate dob = LocalDate.parse(date, formatter);
             patient = new Patient(id,name,surname,dob,email);
-
-            //patient = (Patient) objectInputStream.readObject();
         } catch (EOFException ex) {
             System.out.println("All data have been correctly read.");
         } catch (IOException  ex) {
@@ -74,9 +62,7 @@ public class ReceiveDataViaNetwork {
 
         return patient;
     }
-    public static int receiveInt(DataInputStream dataInputStream) throws IOException{
-        //InputStream inputStream = socket.getInputStream();
-        //DataInputStream dataInputStream = new DataInputStream(inputStream);
+    public static int receiveInt(DataInputStream dataInputStream) {
         int message=-1;
         try{
             message = dataInputStream.readInt();
@@ -91,8 +77,6 @@ public class ReceiveDataViaNetwork {
     }
 
     public static Interpretation recieveInterpretation(DataInputStream dataInputStream){
-        //InputStream inputStream = null;
-        //ObjectInputStream objectInputStream = null;
         Interpretation interpretation = null;
 
         try {
@@ -111,8 +95,6 @@ public class ReceiveDataViaNetwork {
             Signal signalEDA = new Signal(Signal.SignalType.EDA);
             signalEDA.setValuesEDA(stringEDA);
             interpretation = new Interpretation(date, interpretation1, signalEMG, signalEDA, patient_id, doctor_id, observation);
-
-            //patient = (Patient) objectInputStream.readObject();
         } catch (EOFException ex) {
             System.out.println("All data have been correctly read.");
         } catch (IOException  ex) {
@@ -122,45 +104,5 @@ public class ReceiveDataViaNetwork {
         }
 
         return interpretation;
-    }
-
-    public static User recieveUser(DataInputStream dataInputStream)
-    {
-        User u = null;
-        try{
-            String email = dataInputStream.readUTF();
-            byte[] psw = dataInputStream.readUTF().getBytes();
-            String role = dataInputStream.readUTF();
-            Role r = new Role(role);
-            u = new User(email,psw,r);
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-        return u;
-    }
-
-    private static void releaseResources2(DataInputStream dataInputStream){
-        try {
-            dataInputStream.close();
-        } catch (IOException ex) {
-            //Logger.getLogger(ReceiveBinaryDataViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
-        }
-
-    }
-    private static void releaseResources(BufferedReader bufferedReader) {
-        try {
-            bufferedReader.close();
-        } catch (IOException ex) {
-            Logger.getLogger(ReceiveDataViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    private static void releasePatientResources(ObjectInputStream objectInputStream){
-        try {
-            objectInputStream.close();
-        } catch (IOException ex) {
-            //Logger.getLogger(ReceiveClientViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
-        }
     }
 }

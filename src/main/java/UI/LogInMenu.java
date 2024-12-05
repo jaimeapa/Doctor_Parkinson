@@ -26,21 +26,18 @@ public class LogInMenu {
     private static Role role;
 
     public static void main(String[] args) throws IOException {
-        //Patient patient = null;
-        socket = new Socket("localhost", 8000);
 
+        socket = new Socket("localhost", 8000);
         dataOutputStream = new DataOutputStream(socket.getOutputStream());
         objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         outputStream = socket.getOutputStream();
         bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         printWriter = new PrintWriter(socket.getOutputStream(), true);
-        //InputStream inputStream = socket.getInputStream();
         dataInputStream = new DataInputStream(socket.getInputStream());
         objectInputStream = new ObjectInputStream(socket.getInputStream());
 
         SendDataViaNetwork.sendInt(2, dataOutputStream);
         role = new Role("doctor");
-        //SendDataViaNetwork.sendInt(1,socket, dataOutputStream);
         while(true){
             switch (printLogInMenu()) {
                 case 1 : {
@@ -65,8 +62,6 @@ public class LogInMenu {
                 }
             }
         }
-
-
     }
 
     private static void logInMenu(Socket socket) throws IOException{
@@ -88,13 +83,6 @@ public class LogInMenu {
         }catch(IOException e){
             System.out.println("Log in problem");
         }
-        /*if (patient != null) {
-            System.out.println("Login successful!");
-            ClientMenu.clientMenu(patient);
-            // Redirigir a la siguiente parte de la aplicación
-        } else {
-            System.out.println("Invalid email or password.");
-        }*/
     }
 
     private static int printLogInMenu() {
@@ -123,94 +111,21 @@ public class LogInMenu {
         SendDataViaNetwork.sendDoctor(doctor, dataOutputStream);
         SendDataViaNetwork.sendUser(u, dataOutputStream);
         clientDoctorMenu(doctor);
-
     }
 
     public static void clientDoctorMenu(Doctor doctor_logedIn) throws IOException {
         Doctor doctor = doctor_logedIn;
-        Patient patient = null;
-        Interpretation interpretation = null;
         boolean menu = true;
         while(menu){
             switch(printDoctorMenu()){
                 case 1:{
                     SendDataViaNetwork.sendInt(1, dataOutputStream);
-                    int size = ReceiveDataViaNetwork.receiveInt(dataInputStream);
-                    System.out.println("Receiving " + size + " patients");
-                    if(size > 0) {
-                        for (int i = 0; i < size; i++) {
-                            patient = ReceiveDataViaNetwork.recievePatient(dataInputStream);
-                            System.out.println(i + 1 + ". " + patient.getSurname() + ", " + patient.getName());
-                        }
-                        boolean mandarID = true;
-                        int patientID;
-                        while (mandarID) {
-                            patientID = Utilities.readInteger("Select the id of the patient from which you want to see the information");
-                            if (patientID > 0 && patientID < size + 1) {
-                                mandarID = false;
-                                SendDataViaNetwork.sendInt(patientID - 1, dataOutputStream);
-                            } else {
-                                System.out.println("There are no patients with that ID!");
-                                System.out.println("Select the id of the patient from which you want to see the information");
-                            }
-                        }
-                        patient = ReceiveDataViaNetwork.recievePatient(dataInputStream);
-                        System.out.println(patient.toString());
-                    }else{
-                        System.out.println("You have no patients assigned to you");
-                    }
-
+                    viewDetailsOfPatient();
                     break;
                 }
                 case 2:{
                     SendDataViaNetwork.sendInt(2, dataOutputStream);
-                    int size = ReceiveDataViaNetwork.receiveInt(dataInputStream);
-                    if(size > 0) {
-                        for (int i = 0; i < size; i++) {
-                            Patient patient2 = ReceiveDataViaNetwork.recievePatient(dataInputStream);
-                            System.out.println(i + 1 + ". " + patient2.getSurname() + ", " + patient2.getName());
-                        }
-                        boolean mandarID = true;
-                        int patientID;
-                        while (mandarID) {
-                            patientID = Utilities.readInteger("Select the id of the patient from which you want to see the information\n");
-                            if (patientID > 0 && patientID < size + 1) {
-                                mandarID = false;
-                                SendDataViaNetwork.sendInt(patientID - 1, dataOutputStream);
-                            } else {
-                                System.out.println("There are no patients with that ID!");
-                                System.out.println("Select the id of the patient from which you want to see the information");
-                            }
-                        }
-                        String message = ReceiveDataViaNetwork.receiveString(dataInputStream);
-                        if (message.equals("ERROR")) {
-                            System.out.println("This patient doesn't have any reports");
-                        } else {
-                            int size2 = ReceiveDataViaNetwork.receiveInt(dataInputStream);
-                            for (int i = 0; i < size2; i++) {
-                                interpretation = ReceiveDataViaNetwork.recieveInterpretation(dataInputStream);
-                                System.out.println(i + ". " + interpretation.getDate());
-                            }
-                            boolean mandarID2 = true;
-                            int interpretationID;
-                            while (mandarID2) {
-                                interpretationID = Utilities.readInteger("Select the id of the report of the patient from which you want to see the information and make an interpretation");
-                                if (interpretationID > 0 && interpretationID < size2 + 1) {
-                                    mandarID2 = false;
-                                    SendDataViaNetwork.sendInt(interpretationID - 1, dataOutputStream);
-                                } else {
-                                    System.out.println("There are no reports with that ID!");
-                                    System.out.println("Select the id of the report of the patient from which you want to see the information and make an interpretation");
-                                }
-                            }
-                            interpretation = ReceiveDataViaNetwork.recieveInterpretation(dataInputStream);
-                            System.out.println(interpretation.toString());
-                            String interpretation2 = Utilities.readString("Write here your interpretation: ");
-                            SendDataViaNetwork.sendStrings(interpretation2, dataOutputStream);
-                        }
-                    }else{
-                        System.out.println("You have no patients assigned to you");
-                    }
+                    makeAnInterpretation();
                     break;
                 }
                 case 3:{
@@ -223,14 +138,6 @@ public class LogInMenu {
         }
     }
 
-    private static int bitalinoMenu(){
-        System.out.println("\n\nPossible measurements\n"
-                + "\n1. EMG"
-                + "\n2. EDA"
-        );
-        return Utilities.readInteger("What do you want to measure?\n");
-    }
-
     private static int printDoctorMenu(){
         System.out.println("\n\nDiagnosis Menu:\n"
                 + "\n1. View details of a specific patient"
@@ -238,6 +145,85 @@ public class LogInMenu {
                 + "\n3. Log out"
         );
         return Utilities.readInteger("What would you want to do?\n");
+    }
+
+    private static void viewDetailsOfPatient() throws IOException {
+        Patient patient = null;
+        int size = ReceiveDataViaNetwork.receiveInt(dataInputStream);
+        System.out.println("Receiving " + size + " patients");
+        if(size > 0) {
+            for (int i = 0; i < size; i++) {
+                patient = ReceiveDataViaNetwork.recievePatient(dataInputStream);
+                System.out.println(i + 1 + ". " + patient.getSurname() + ", " + patient.getName());
+            }
+            boolean mandarID = true;
+            int patientID;
+            while (mandarID) {
+                patientID = Utilities.readInteger("Select the id of the patient from which you want to see the information");
+                if (patientID > 0 && patientID < size + 1) {
+                    mandarID = false;
+                    SendDataViaNetwork.sendInt(patientID - 1, dataOutputStream);
+                } else {
+                    System.out.println("There are no patients with that ID!");
+                    System.out.println("Select the id of the patient from which you want to see the information");
+                }
+            }
+            patient = ReceiveDataViaNetwork.recievePatient(dataInputStream);
+            System.out.println(patient.toString());
+        }else{
+            System.out.println("You have no patients assigned to you");
+        }
+    }
+
+    private static void makeAnInterpretation() throws IOException {
+        Interpretation interpretation = null;
+        int size = ReceiveDataViaNetwork.receiveInt(dataInputStream);
+        if(size > 0) {
+            for (int i = 0; i < size; i++) {
+                Patient patient2 = ReceiveDataViaNetwork.recievePatient(dataInputStream);
+                System.out.println(i + 1 + ". " + patient2.getSurname() + ", " + patient2.getName());
+            }
+            boolean mandarID = true;
+            int patientID;
+            while (mandarID) {
+                patientID = Utilities.readInteger("Select the id of the patient from which you want to see the information\n");
+                if (patientID > 0 && patientID < size + 1) {
+                    mandarID = false;
+                    SendDataViaNetwork.sendInt(patientID - 1, dataOutputStream);
+                } else {
+                    System.out.println("There are no patients with that ID!");
+                    System.out.println("Select the id of the patient from which you want to see the information");
+                }
+            }
+            String message = ReceiveDataViaNetwork.receiveString(dataInputStream);
+            if (message.equals("ERROR")) {
+                System.out.println("This patient doesn't have any reports");
+            } else {
+                int size2 = ReceiveDataViaNetwork.receiveInt(dataInputStream);
+                for (int i = 0; i < size2; i++) {
+                    interpretation = ReceiveDataViaNetwork.recieveInterpretation(dataInputStream);
+                    System.out.println(i + ". " + interpretation.getDate());
+                }
+                boolean mandarID2 = true;
+                int interpretationID;
+                while (mandarID2) {
+                    interpretationID = Utilities.readInteger("Select the id of the report of the patient from which you want to see the information and make an interpretation");
+                    if (interpretationID > 0 && interpretationID < size2 + 1) {
+                        mandarID2 = false;
+                        SendDataViaNetwork.sendInt(interpretationID - 1, dataOutputStream);
+                    } else {
+                        System.out.println("There are no reports with that ID!");
+                        System.out.println("Select the id of the report of the patient from which you want to see the information and make an interpretation");
+                    }
+                }
+                interpretation = ReceiveDataViaNetwork.recieveInterpretation(dataInputStream);
+                System.out.println(interpretation.toString());
+                String interpretation2 = Utilities.readString("Write here your interpretation: ");
+                SendDataViaNetwork.sendStrings(interpretation2, dataOutputStream);
+            }
+        }else{
+            System.out.println("You have no patients assigned to you");
+        }
     }
 
 
