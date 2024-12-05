@@ -217,7 +217,6 @@ public class LogInMenu {
                     }
                 }
                 interpretation = ReceiveDataViaNetwork.recieveInterpretation(dataInputStream);
-
                 int size3 = ReceiveDataViaNetwork.receiveInt(dataInputStream);
                 System.out.println(size3);
                 if(size3 > 0) {
