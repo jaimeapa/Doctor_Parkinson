@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 public class ReceiveDataViaNetwork {
 
     public static String receiveString(DataInputStream dataInputStream) throws IOException {
-        String information = "";
+        String information;
         information = dataInputStream.readUTF();
         return information;
     }
@@ -71,7 +71,6 @@ public class ReceiveDataViaNetwork {
         }catch (IOException  ex) {
             System.out.println("Unable to read from the client.");
             ex.printStackTrace();
-            //Logger.getLogger(ReceiveClientViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
         }
         return message;
     }
