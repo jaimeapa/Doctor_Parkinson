@@ -96,8 +96,8 @@ public class LogInMenu {
 
     public static void registerDoctor(Socket socket) throws IOException
     {
-        Doctor doctor = null;
-        User u = null;
+        Doctor doctor;
+        User u;
         String name = Utilities.readString("Enter your name: ");
         String surname = Utilities.readString("Enter your last name: ");
         LocalDate dob = Utilities.readDate("Enter your date of birth: ");
@@ -148,7 +148,7 @@ public class LogInMenu {
     }
 
     private static void viewDetailsOfPatient() throws IOException {
-        Patient patient = null;
+        Patient patient;
         int size = ReceiveDataViaNetwork.receiveInt(dataInputStream);
         System.out.println("Receiving " + size + " patients");
         if(size > 0) {
@@ -176,7 +176,7 @@ public class LogInMenu {
     }
 
     private static void makeAnInterpretation() throws IOException {
-        Interpretation interpretation = null;
+        Interpretation interpretation;
         int size = ReceiveDataViaNetwork.receiveInt(dataInputStream);
         if(size > 0) {
             for (int i = 0; i < size; i++) {
@@ -245,38 +245,33 @@ public class LogInMenu {
         try {
             dataOutputStream.close();
         } catch (IOException ex) {
-            //Logger.getLogger(SendBinaryDataViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
         try {
             outputStream.close();
         } catch (IOException ex) {
-            // Logger.getLogger(SendBinaryDataViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
 
         try {
             objectInputStream.close();
         } catch (IOException ex) {
-            //Logger.getLogger(ReceiveClientViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
         try {
             dataInputStream.close();
         } catch (IOException ex) {
-            //Logger.getLogger(ReceiveBinaryDataViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
         try {
             bufferedReader.close();
         } catch (IOException ex) {
-            //Logger.getLogger(ReceiveStringsViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         printWriter.close();
         try {
             socket.close();
         } catch (IOException ex) {
-            //Logger.getLogger(SendBinaryDataViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
     }
