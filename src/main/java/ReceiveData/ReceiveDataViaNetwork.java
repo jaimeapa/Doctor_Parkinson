@@ -11,6 +11,14 @@ import java.util.logging.Logger;
 
 public class ReceiveDataViaNetwork {
 
+    private static DataInputStream dataInputStream;
+    public ReceiveDataViaNetwork(Socket socket){
+        try {
+            this.dataInputStream = new DataInputStream(socket.getInputStream());
+        }catch (IOException e){
+
+        }
+    }
    /* public static String receiveString(DataInputStream dataInputStream) throws IOException {
         String information;
         information = dataInputStream.readUTF();
@@ -108,22 +116,22 @@ public class ReceiveDataViaNetwork {
 
 
 
-       public static String receiveString(Socket socket) throws IOException {
+       public static String receiveString() throws IOException {
 
-           DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
+           //DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
            String information = "";
            information = dataInputStream.readUTF();
-           releaseResources(dataInputStream);
+           //releaseResources(dataInputStream);
            return information;
        }
 
-       public static Doctor receiveDoctor(Socket socket){
+       public static Doctor receiveDoctor(){
            //InputStream inputStream = null;
            //ObjectInputStream objectInputStream = null;
            Doctor doctor = null;
 
            try {
-               DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
+               //DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
                int id = dataInputStream.readInt();
                String name = dataInputStream.readUTF();
                String surname = dataInputStream.readUTF();
@@ -132,7 +140,7 @@ public class ReceiveDataViaNetwork {
                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                LocalDate dob = LocalDate.parse(date, formatter);
                doctor = new Doctor(id,name,surname,dob,email);
-               releaseResources(dataInputStream);
+               //releaseResources(dataInputStream);
                //patient = (Patient) objectInputStream.readObject();
            } catch (EOFException ex) {
                System.out.println("All data have been correctly read.");
@@ -145,13 +153,13 @@ public class ReceiveDataViaNetwork {
            return doctor;
        }
 
-       public static Patient recievePatient(Socket socket){
+       public static Patient recievePatient(){
            //InputStream inputStream = null;
            //ObjectInputStream objectInputStream = null;
            Patient patient = null;
 
            try {
-               DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
+               //DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
                int id = dataInputStream.readInt();
                String name = dataInputStream.readUTF();
                String surname = dataInputStream.readUTF();
@@ -160,7 +168,7 @@ public class ReceiveDataViaNetwork {
                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                LocalDate dob = LocalDate.parse(date, formatter);
                patient = new Patient(id,name,surname,dob,email);
-               releaseResources(dataInputStream);
+               //releaseResources(dataInputStream);
                //patient = (Patient) objectInputStream.readObject();
            } catch (EOFException ex) {
                System.out.println("All data have been correctly read.");
@@ -172,7 +180,7 @@ public class ReceiveDataViaNetwork {
 
            return patient;
        }
-       public static Interpretation recieveInterpretation(Socket socket){
+       public static Interpretation recieveInterpretation(){
            //InputStream inputStream = null;
            //ObjectInputStream objectInputStream = null;
            Interpretation interpretation = null;
@@ -180,7 +188,7 @@ public class ReceiveDataViaNetwork {
 
            try {
                //Object tmp;
-               DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
+              // DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
                String stringDate = dataInputStream.readUTF();
                int doctor_id = dataInputStream.readInt();
                String stringEMG = dataInputStream.readUTF();
@@ -195,7 +203,7 @@ public class ReceiveDataViaNetwork {
                Signal signalEDA = new Signal(Signal.SignalType.EDA);
                signalEDA.setValuesEDA(stringEDA);
                interpretation = new Interpretation(date, interpretation1, signalEMG, signalEDA, patient_id, doctor_id, observation);
-               releaseResources(dataInputStream);
+              // releaseResources(dataInputStream);
                //patient = (Patient) objectInputStream.readObject();
            } catch (EOFException ex) {
                System.out.println("All data have been correctly read.");
@@ -208,14 +216,14 @@ public class ReceiveDataViaNetwork {
            return interpretation;
        }
 
-       public static int receiveInt(Socket socket) throws IOException{
+       public static int receiveInt(){
            //InputStream inputStream = socket.getInputStream();
            //DataInputStream dataInputStream = new DataInputStream(inputStream);
            int message = 10;
            try{
-               DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
+              // DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
                message = dataInputStream.readInt();
-               releaseResources(dataInputStream);
+               //releaseResources(dataInputStream);
            }catch(IOException ex){
                ex.printStackTrace();
            }
@@ -227,20 +235,20 @@ public class ReceiveDataViaNetwork {
        {
            User u = null;
            try{
-               DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
+              // DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
                String email = dataInputStream.readUTF();
                byte[] psw = dataInputStream.readUTF().getBytes();
                String role = dataInputStream.readUTF();
                Role r = new Role(role);
                u = new User(email,psw,r);
-               releaseResources(dataInputStream);
+              // releaseResources(dataInputStream);
            }catch (IOException e){
                e.printStackTrace();
            }
            return u;
        }
 
-       private static void releaseResources(DataInputStream dataInputStream){
+       public static void releaseResources(){
            try {
                dataInputStream.close();
            } catch (IOException ex) {
