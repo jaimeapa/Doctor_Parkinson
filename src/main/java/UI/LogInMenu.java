@@ -24,7 +24,8 @@ public class LogInMenu {
 
     public static void main(String[] args) throws IOException {
        Socket socket = new Socket("localhost", 8000);
-
+        sendDataViaNetwork = new SendDataViaNetwork(socket);
+        receiveDataViaNetwork = new ReceiveDataViaNetwork(socket);
         sendDataViaNetwork.sendInt(2);
         role = new Role("doctor");
         while(true){
@@ -207,10 +208,10 @@ public class LogInMenu {
                 }
                 interpretation = receiveDataViaNetwork.recieveInterpretation();
                 int size3 = receiveDataViaNetwork.receiveInt();
-                System.out.println(size3);
                 if(size3 > 0) {
                     for (int i = 0; i < size3; i++) {
                        String symptoms= receiveDataViaNetwork.receiveString();
+                        System.out.println(symptoms);
                        interpretation.addSymptom(new Symptoms(symptoms));
                     }
 

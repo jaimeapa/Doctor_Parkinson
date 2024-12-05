@@ -183,14 +183,12 @@ public class Interpretation {
 
     @Override
     public String toString() {
-        return "Interpretation{" +
-                "date=" + date +
-                ", interpretation='" + interpretation + '\'' +
-                ", signalEMG='" + signalEMG + '\'' +
-                ", signalEDA='" + signalEDA + '\'' +
-                ", symptoms=" + symptoms +
-                ", observation='" + observation + '\'' +
-                '}';
+        return "Report " + date + ":"+
+                "\n signalEMG=" + signalEMG +
+                "\n signalEDA=" + signalEDA +
+                "\n Your Symptoms: " + symptoms +
+                "\n Your observations: '" + observation + '\'' +
+                "\n Doctor´s notes: '" + interpretation + '\'';
     }
 
     public String toString2() {
