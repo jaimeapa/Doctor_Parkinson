@@ -202,7 +202,7 @@ public class LogInMenu {
                 int size2 = ReceiveDataViaNetwork.receiveInt(dataInputStream);
                 for (int i = 0; i < size2; i++) {
                     interpretation = ReceiveDataViaNetwork.recieveInterpretation(dataInputStream);
-                    System.out.println(i + ". " + interpretation.getDate());
+                    System.out.println(i + 1 + ". " + interpretation.getDate());
                 }
                 boolean mandarID2 = true;
                 int interpretationID;
@@ -219,6 +219,7 @@ public class LogInMenu {
                 interpretation = ReceiveDataViaNetwork.recieveInterpretation(dataInputStream);
 
                 int size3 = ReceiveDataViaNetwork.receiveInt(dataInputStream);
+                System.out.println(size3);
                 if(size3 > 0) {
                     for (int i = 0; i < size3; i++) {
                        String symptoms= ReceiveDataViaNetwork.receiveString(dataInputStream);
