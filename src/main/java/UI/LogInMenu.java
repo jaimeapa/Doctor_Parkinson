@@ -1,12 +1,14 @@
 package UI;
 
 
+import Encryption.EncryptPassword;
 import Pojos.*;
 import ReceiveData.ReceiveDataViaNetwork;
 import ReceiveData.SendDataViaNetwork;
 
 import java.io.*;
 import java.net.Socket;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -23,32 +25,35 @@ public class LogInMenu {
     private static Role role;
 
     public static void main(String[] args) throws IOException {
-       Socket socket = new Socket("localhost", 8000);
-        sendDataViaNetwork = new SendDataViaNetwork(socket);
-        receiveDataViaNetwork = new ReceiveDataViaNetwork(socket);
-        sendDataViaNetwork.sendInt(2);
-        role = new Role("doctor");
-        while(true){
-            switch (printLogInMenu()) {
-                case 1 : {
-                    sendDataViaNetwork.sendInt(1);
-                    registerDoctor(socket);
-                    break;
-                }
-                case 2 :{
-                    sendDataViaNetwork.sendInt(2);
-                    logInMenu(socket);
-                    break;
-                }
-                case 3 :{
-                    System.out.println("Exiting...");
-                    sendDataViaNetwork.sendInt(3);
-                    releaseResources(socket);
-                    System.exit(0);
-                }
-                default:{
-                    System.out.println("That number is not an option, try again");
-                    break;
+        while(true) {
+            String ipAdress = Utilities.readString("Write the IP address of the server you want to connect to:\n");
+            Socket socket = new Socket(ipAdress, 8000);
+            sendDataViaNetwork = new SendDataViaNetwork(socket);
+            receiveDataViaNetwork = new ReceiveDataViaNetwork(socket);
+            sendDataViaNetwork.sendInt(2);
+            role = new Role("doctor");
+            while (true) {
+                switch (printLogInMenu()) {
+                    case 1: {
+                        sendDataViaNetwork.sendInt(1);
+                        registerDoctor(socket);
+                        break;
+                    }
+                    case 2: {
+                        sendDataViaNetwork.sendInt(2);
+                        logInMenu(socket);
+                        break;
+                    }
+                    case 3: {
+                        System.out.println("Exiting...");
+                        sendDataViaNetwork.sendInt(3);
+                        releaseResources(socket);
+                        System.exit(0);
+                    }
+                    default: {
+                        System.out.println("That number is not an option, try again");
+                        break;
+                    }
                 }
             }
         }
@@ -56,23 +61,36 @@ public class LogInMenu {
 
     private static void logInMenu(Socket socket) throws IOException{
         String email = Utilities.readString("Email: ");
-        String password = Utilities.readString("Password: ");
-        User u = new User (email,password.getBytes(), role);
-        sendDataViaNetwork.sendUser(u);
-        String message = receiveDataViaNetwork.receiveString();
-        if(message.equals("OK")) {
-            try {
-                Doctor doctor = receiveDataViaNetwork.receiveDoctor();
-                if (doctor != null) {
-                    System.out.println("Log in successful");
-                    System.out.println(doctor.toString());
-                    clientDoctorMenu(doctor);
+        String psw = Utilities.readString("Password: ");
+        byte[] password;
+        Role role = new Role("patient");
+        try {
+            password = EncryptPassword.encryptPassword(psw);
+        }catch(NoSuchAlgorithmException e){
+            System.out.println("Error when encrypting the password");
+            password = null;
+        }
+        if(password != null) {
+            sendDataViaNetwork.sendStrings("OK");
+            User u = new User(email, password, role);
+            sendDataViaNetwork.sendUser(u);
+            String message = receiveDataViaNetwork.receiveString();
+            if (message.equals("OK")) {
+                try {
+                    Doctor doctor = receiveDataViaNetwork.receiveDoctor();
+                    if (doctor != null) {
+                        System.out.println("Log in successful");
+                        System.out.println(doctor.toString());
+                        clientDoctorMenu(doctor);
+                    }
+                } catch (IOException e) {
+                    System.out.println("Log in problem");
                 }
-            } catch (IOException e) {
-                System.out.println("Log in problem");
+            } else if (message.equals("ERROR")) {
+                System.out.println("User or password is incorrect");
             }
-        }else if(message.equals("ERROR")){
-            System.out.println("User or password is incorrect");
+        }else{
+            sendDataViaNetwork.sendStrings("ERROR");
         }
     }
 
@@ -95,13 +113,24 @@ public class LogInMenu {
         System.out.println(dob.toString());
         String email = Utilities.readString("Enter your email: ");
         doctor = new Doctor(1,name,surname,dob,email);
-        String password = Utilities.readString("Enter your password: ");
-        u = new User(email, password.getBytes(), role);
-        System.out.println(doctor.toString());
-        System.out.println(u.toString());
-        sendDataViaNetwork.sendDoctor(doctor);
-        sendDataViaNetwork.sendUser(u);
-        clientDoctorMenu(doctor);
+        String psw = Utilities.readString("Password: ");
+        byte[] password = null;
+        Role role = new Role("doctor");
+        try {
+            password = EncryptPassword.encryptPassword(psw);
+        }catch(NoSuchAlgorithmException e){
+            System.out.println("Error when encrypting the password");
+            password = null;
+        }
+        if(password != null) {
+            sendDataViaNetwork.sendStrings("OK");
+            u = new User(email, password, role);
+            sendDataViaNetwork.sendDoctor(doctor);
+            sendDataViaNetwork.sendUser(u);
+            clientDoctorMenu(doctor);
+        }else{
+            sendDataViaNetwork.sendStrings("ERROR");
+        }
     }
 
     public static void clientDoctorMenu(Doctor doctor_logedIn) throws IOException {
@@ -150,13 +179,13 @@ public class LogInMenu {
             boolean mandarID = true;
             int patientID;
             while (mandarID) {
-                patientID = Utilities.readInteger("Select the id of the patient from which you want to see the information");
+                patientID = Utilities.readInteger("Select the id of the patient from which you want to see the information\n");
                 if (patientID > 0 && patientID < size + 1) {
                     mandarID = false;
                     sendDataViaNetwork.sendInt(patientID - 1);
                 } else {
                     System.out.println("There are no patients with that ID!");
-                    System.out.println("Select the id of the patient from which you want to see the information");
+                    System.out.println("Select the id of the patient from which you want to see the information\n");
                 }
             }
             patient = receiveDataViaNetwork.recievePatient();
@@ -183,7 +212,7 @@ public class LogInMenu {
                     sendDataViaNetwork.sendInt(patientID - 1);
                 } else {
                     System.out.println("There are no patients with that ID!");
-                    System.out.println("Select the id of the patient from which you want to see the information");
+                    System.out.println("Select the id of the patient from which you want to see the information\n");
                 }
             }
             String message = receiveDataViaNetwork.receiveString();
@@ -198,13 +227,13 @@ public class LogInMenu {
                 boolean mandarID2 = true;
                 int interpretationID;
                 while (mandarID2) {
-                    interpretationID = Utilities.readInteger("Select the id of the report of the patient from which you want to see the information and make an interpretation");
+                    interpretationID = Utilities.readInteger("Select the id of the report of the patient from which you want to see the information and make an interpretation\n");
                     if (interpretationID > 0 && interpretationID < size2 + 1) {
                         mandarID2 = false;
                         sendDataViaNetwork.sendInt(interpretationID - 1);
                     } else {
                         System.out.println("There are no reports with that ID!");
-                        System.out.println("Select the id of the report of the patient from which you want to see the information and make an interpretation");
+                        System.out.println("Select the id of the report of the patient from which you want to see the information and make an interpretation\n");
                     }
                 }
                 interpretation = receiveDataViaNetwork.recieveInterpretation();
