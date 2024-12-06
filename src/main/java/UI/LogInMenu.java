@@ -59,19 +59,20 @@ public class LogInMenu {
         String password = Utilities.readString("Password: ");
         User u = new User (email,password.getBytes(), role);
         sendDataViaNetwork.sendUser(u);
-        try {
-            Doctor doctor = receiveDataViaNetwork.receiveDoctor();
-            if (doctor != null) {
-                if(doctor.getName().equals("name")){
-                    System.out.println("User or password is incorrect");
-                }else {
+        String message = receiveDataViaNetwork.receiveString();
+        if(message.equals("OK")) {
+            try {
+                Doctor doctor = receiveDataViaNetwork.receiveDoctor();
+                if (doctor != null) {
                     System.out.println("Log in successful");
                     System.out.println(doctor.toString());
                     clientDoctorMenu(doctor);
                 }
+            } catch (IOException e) {
+                System.out.println("Log in problem");
             }
-        }catch(IOException e){
-            System.out.println("Log in problem");
+        }else if(message.equals("ERROR")){
+            System.out.println("User or password is incorrect");
         }
     }
 
