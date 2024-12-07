@@ -5,7 +5,6 @@ import Encryption.EncryptPassword;
 import Pojos.*;
 import ReceiveData.ReceiveDataViaNetwork;
 import ReceiveData.SendDataViaNetwork;
-
 import java.io.*;
 import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
@@ -18,33 +17,32 @@ import java.util.logging.Logger;
 
 public class LogInMenu {
     //private static Socket socket;
-
-    private static SendDataViaNetwork sendDataViaNetwork;
-    private static ReceiveDataViaNetwork receiveDataViaNetwork;
+    //private static SendDataViaNetwork sendDataViaNetwork;
+    //private static ReceiveDataViaNetwork receiveDataViaNetwork;
 
     public static void main(String[] args) throws IOException {
         while(true) {
             String ipAdress = Utilities.readString("Write the IP address of the server you want to connect to:\n");
             Socket socket = new Socket(ipAdress, 8000);
-            sendDataViaNetwork = new SendDataViaNetwork(socket);
-            receiveDataViaNetwork = new ReceiveDataViaNetwork(socket);
+            SendDataViaNetwork sendDataViaNetwork = new SendDataViaNetwork(socket);
+            ReceiveDataViaNetwork receiveDataViaNetwork = new ReceiveDataViaNetwork(socket);
             sendDataViaNetwork.sendInt(2);
             while (true) {
                 switch (printLogInMenu()) {
                     case 1: {
                         sendDataViaNetwork.sendInt(1);
-                        registerDoctor();
+                        registerDoctor(sendDataViaNetwork, receiveDataViaNetwork);
                         break;
                     }
                     case 2: {
                         sendDataViaNetwork.sendInt(2);
-                        logInMenu();
+                        logInMenu(sendDataViaNetwork, receiveDataViaNetwork);
                         break;
                     }
                     case 3: {
                         System.out.println("Exiting...");
                         sendDataViaNetwork.sendInt(3);
-                        releaseResources(socket);
+                        releaseResources(socket, sendDataViaNetwork, receiveDataViaNetwork);
                         System.exit(0);
                     }
                     default: {
@@ -56,7 +54,7 @@ public class LogInMenu {
         }
     }
 
-    private static void logInMenu() throws IOException{
+    private static void logInMenu(SendDataViaNetwork sendDataViaNetwork, ReceiveDataViaNetwork receiveDataViaNetwork) throws IOException{
         String email = Utilities.readString("Email: ");
         String psw = Utilities.readString("Password: ");
         byte[] password;
@@ -78,7 +76,7 @@ public class LogInMenu {
                     if (doctor != null) {
                         System.out.println("Log in successful");
                         System.out.println(doctor.toString());
-                        clientDoctorMenu(doctor);
+                        clientDoctorMenu(doctor, sendDataViaNetwork, receiveDataViaNetwork);
                     }
                 } catch (IOException e) {
                     System.out.println("Log in problem");
@@ -100,7 +98,7 @@ public class LogInMenu {
         return Utilities.readInteger("What would you want to do?\n");
     }
 
-    public static void registerDoctor() throws IOException
+    public static void registerDoctor(SendDataViaNetwork sendDataViaNetwork, ReceiveDataViaNetwork receiveDataViaNetwork) throws IOException
     {
         Doctor doctor;
         User u;
@@ -124,25 +122,25 @@ public class LogInMenu {
             u = new User(email, password, role);
             sendDataViaNetwork.sendDoctor(doctor);
             sendDataViaNetwork.sendUser(u);
-            clientDoctorMenu(doctor);
+            clientDoctorMenu(doctor, sendDataViaNetwork, receiveDataViaNetwork);
         }else{
             sendDataViaNetwork.sendStrings("ERROR");
         }
     }
 
-    public static void clientDoctorMenu(Doctor doctor_logedIn) throws IOException {
+    public static void clientDoctorMenu(Doctor doctor_logedIn, SendDataViaNetwork sendDataViaNetwork, ReceiveDataViaNetwork receiveDataViaNetwork) throws IOException {
         Doctor doctor = doctor_logedIn;
         boolean menu = true;
         while(menu){
             switch(printDoctorMenu()){
                 case 1:{
                     sendDataViaNetwork.sendInt(1);
-                    viewDetailsOfPatient();
+                    viewDetailsOfPatient(sendDataViaNetwork, receiveDataViaNetwork);
                     break;
                 }
                 case 2:{
                     sendDataViaNetwork.sendInt(2);
-                    makeAnInterpretation();
+                    makeAnInterpretation(sendDataViaNetwork, receiveDataViaNetwork);
                     break;
                 }
                 case 3:{
@@ -164,7 +162,7 @@ public class LogInMenu {
         return Utilities.readInteger("What would you want to do?\n");
     }
 
-    private static void viewDetailsOfPatient() throws IOException {
+    private static void viewDetailsOfPatient(SendDataViaNetwork sendDataViaNetwork, ReceiveDataViaNetwork receiveDataViaNetwork) throws IOException {
         Patient patient;
         int size = receiveDataViaNetwork.receiveInt();
         System.out.println("Receiving " + size + " patients");
@@ -192,7 +190,7 @@ public class LogInMenu {
         }
     }
 
-    private static void makeAnInterpretation() throws IOException {
+    private static void makeAnInterpretation(SendDataViaNetwork sendDataViaNetwork, ReceiveDataViaNetwork receiveDataViaNetwork) throws IOException {
         Interpretation interpretation;
         int size = receiveDataViaNetwork.receiveInt();
         if(size > 0) {
@@ -253,7 +251,7 @@ public class LogInMenu {
     }
 
 
-    private static void releaseResources(Socket socket){
+    private static void releaseResources(Socket socket, SendDataViaNetwork sendDataViaNetwork, ReceiveDataViaNetwork receiveDataViaNetwork){
         sendDataViaNetwork.releaseResources();
         receiveDataViaNetwork.releaseResources();
         try {

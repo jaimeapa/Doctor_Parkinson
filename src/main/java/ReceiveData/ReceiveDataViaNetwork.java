@@ -19,7 +19,7 @@ public class ReceiveDataViaNetwork {
 
         }
     }
-   /* public static String receiveString(DataInputStream dataInputStream) throws IOException {
+   /* public String receiveString(DataInputStream dataInputStream) throws IOException {
         String information;
         information = dataInputStream.readUTF();
         return information;
@@ -47,7 +47,7 @@ public class ReceiveDataViaNetwork {
 
         return doctor;
     }
-    public static Patient recievePatient(DataInputStream dataInputStream){
+    public Patient recievePatient(DataInputStream dataInputStream){
         Patient patient = null;
 
         try {
@@ -82,7 +82,7 @@ public class ReceiveDataViaNetwork {
         return message;
     }
 
-    public static Interpretation recieveInterpretation(DataInputStream dataInputStream){
+    public Interpretation recieveInterpretation(DataInputStream dataInputStream){
         Interpretation interpretation = null;
 
         try {
@@ -116,7 +116,7 @@ public class ReceiveDataViaNetwork {
 
 
 
-       public static String receiveString() throws IOException {
+       public String receiveString() throws IOException {
 
            //DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
            String information = "";
@@ -125,7 +125,7 @@ public class ReceiveDataViaNetwork {
            return information;
        }
 
-       public static Doctor receiveDoctor(){
+       public Doctor receiveDoctor(){
            //InputStream inputStream = null;
            //ObjectInputStream objectInputStream = null;
            Doctor doctor = null;
@@ -153,7 +153,7 @@ public class ReceiveDataViaNetwork {
            return doctor;
        }
 
-       public static Patient recievePatient(){
+       public Patient recievePatient(){
            //InputStream inputStream = null;
            //ObjectInputStream objectInputStream = null;
            Patient patient = null;
@@ -180,7 +180,7 @@ public class ReceiveDataViaNetwork {
 
            return patient;
        }
-       public static Interpretation recieveInterpretation(){
+       public Interpretation recieveInterpretation(){
            //InputStream inputStream = null;
            //ObjectInputStream objectInputStream = null;
            Interpretation interpretation = null;
@@ -216,7 +216,7 @@ public class ReceiveDataViaNetwork {
            return interpretation;
        }
 
-       public static int receiveInt(){
+       public int receiveInt(){
            //InputStream inputStream = socket.getInputStream();
            //DataInputStream dataInputStream = new DataInputStream(inputStream);
            int message = 10;
@@ -231,7 +231,7 @@ public class ReceiveDataViaNetwork {
            return message;
        }
 
-       public static User recieveUser(Socket socket)
+       public User recieveUser(Socket socket)
        {
            User u = null;
            try{
@@ -248,7 +248,7 @@ public class ReceiveDataViaNetwork {
            return u;
        }
 
-       public static void releaseResources(){
+       public void releaseResources(){
            try {
                dataInputStream.close();
            } catch (IOException ex) {

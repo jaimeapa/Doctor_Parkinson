@@ -9,11 +9,10 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 
 public class Utilities {
-    private static InputStreamReader input = new InputStreamReader(System.in);
-    private static BufferedReader buffer = new BufferedReader(input);
 
     public static int readInteger(String question) {
-
+        InputStreamReader input = new InputStreamReader(System.in);
+        BufferedReader buffer = new BufferedReader(input);
         int num;
         String line;
         while (true) {
@@ -48,7 +47,8 @@ public class Utilities {
         }
     }
     public static String readString(String question) {
-
+        InputStreamReader input = new InputStreamReader(System.in);
+        BufferedReader buffer = new BufferedReader(input);
         String line;
         while (true) {
             try {
