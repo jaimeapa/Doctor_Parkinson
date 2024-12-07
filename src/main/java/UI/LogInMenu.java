@@ -22,8 +22,6 @@ public class LogInMenu {
     private static SendDataViaNetwork sendDataViaNetwork;
     private static ReceiveDataViaNetwork receiveDataViaNetwork;
 
-    private static Role role;
-
     public static void main(String[] args) throws IOException {
         while(true) {
             String ipAdress = Utilities.readString("Write the IP address of the server you want to connect to:\n");
@@ -31,7 +29,7 @@ public class LogInMenu {
             sendDataViaNetwork = new SendDataViaNetwork(socket);
             receiveDataViaNetwork = new ReceiveDataViaNetwork(socket);
             sendDataViaNetwork.sendInt(2);
-            role = new Role("doctor");
+            Role role = new Role("doctor");
             while (true) {
                 switch (printLogInMenu()) {
                     case 1: {
