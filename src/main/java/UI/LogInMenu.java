@@ -29,17 +29,16 @@ public class LogInMenu {
             sendDataViaNetwork = new SendDataViaNetwork(socket);
             receiveDataViaNetwork = new ReceiveDataViaNetwork(socket);
             sendDataViaNetwork.sendInt(2);
-            Role role = new Role("doctor");
             while (true) {
                 switch (printLogInMenu()) {
                     case 1: {
                         sendDataViaNetwork.sendInt(1);
-                        registerDoctor(socket);
+                        registerDoctor();
                         break;
                     }
                     case 2: {
                         sendDataViaNetwork.sendInt(2);
-                        logInMenu(socket);
+                        logInMenu();
                         break;
                     }
                     case 3: {
@@ -57,11 +56,11 @@ public class LogInMenu {
         }
     }
 
-    private static void logInMenu(Socket socket) throws IOException{
+    private static void logInMenu() throws IOException{
         String email = Utilities.readString("Email: ");
         String psw = Utilities.readString("Password: ");
         byte[] password;
-        Role role = new Role("patient");
+        Role role = new Role("doctor");
         try {
             password = EncryptPassword.encryptPassword(psw);
         }catch(NoSuchAlgorithmException e){
@@ -101,7 +100,7 @@ public class LogInMenu {
         return Utilities.readInteger("What would you want to do?\n");
     }
 
-    public static void registerDoctor(Socket socket) throws IOException
+    public static void registerDoctor() throws IOException
     {
         Doctor doctor;
         User u;
