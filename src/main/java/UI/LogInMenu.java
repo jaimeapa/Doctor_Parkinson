@@ -27,29 +27,35 @@ public class LogInMenu {
             SendDataViaNetwork sendDataViaNetwork = new SendDataViaNetwork(socket);
             ReceiveDataViaNetwork receiveDataViaNetwork = new ReceiveDataViaNetwork(socket);
             sendDataViaNetwork.sendInt(2);
-            while (true) {
-                switch (printLogInMenu()) {
-                    case 1: {
-                        sendDataViaNetwork.sendInt(1);
-                        registerDoctor(sendDataViaNetwork, receiveDataViaNetwork);
-                        break;
-                    }
-                    case 2: {
-                        sendDataViaNetwork.sendInt(2);
-                        logInMenu(sendDataViaNetwork, receiveDataViaNetwork);
-                        break;
-                    }
-                    case 3: {
-                        System.out.println("Exiting...");
-                        sendDataViaNetwork.sendInt(3);
-                        releaseResources(socket, sendDataViaNetwork, receiveDataViaNetwork);
-                        System.exit(0);
-                    }
-                    default: {
-                        System.out.println("That number is not an option, try again");
-                        break;
+            String message = receiveDataViaNetwork.receiveString();
+            System.out.println(message);
+            if(message.equals("DOCTOR")) {
+                while (true) {
+                    switch (printLogInMenu()) {
+                        case 1: {
+                            sendDataViaNetwork.sendInt(1);
+                            registerDoctor(sendDataViaNetwork, receiveDataViaNetwork);
+                            break;
+                        }
+                        case 2: {
+                            sendDataViaNetwork.sendInt(2);
+                            logInMenu(sendDataViaNetwork, receiveDataViaNetwork);
+                            break;
+                        }
+                        case 3: {
+                            System.out.println("Exiting...");
+                            sendDataViaNetwork.sendInt(3);
+                            releaseResources(socket, sendDataViaNetwork, receiveDataViaNetwork);
+                            System.exit(0);
+                        }
+                        default: {
+                            System.out.println("That number is not an option, try again");
+                            break;
+                        }
                     }
                 }
+            }else{
+                System.out.println("Error in connection");
             }
         }
     }
