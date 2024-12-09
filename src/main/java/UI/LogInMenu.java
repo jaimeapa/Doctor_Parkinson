@@ -236,12 +236,13 @@ public class LogInMenu {
                 if(size3 > 0) {
                     for (int i = 0; i < size3; i++) {
                        String symptoms= receiveDataViaNetwork.receiveString();
-                        System.out.println(symptoms);
+                       System.out.println(symptoms);
                        interpretation.addSymptom(new Symptoms(symptoms));
                     }
-
                 }
                 System.out.println(interpretation.toString());
+                interpretation.analyzeBitalinoData(interpretation.getSignalEDA().getValues(), Signal.SignalType.EDA);
+                interpretation.analyzeBitalinoData(interpretation.getSignalEMG().getValues(), Signal.SignalType.EMG);
                 String interpretation2 = Utilities.readString("Write here your interpretation: ");
                 sendDataViaNetwork.sendStrings(interpretation2);
             }
