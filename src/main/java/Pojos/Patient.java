@@ -1,11 +1,8 @@
 package Pojos;
 
 import java.io.Serializable;
-import java.rmi.NotBoundException;
 import java.time.LocalDate;
 import java.util.LinkedList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Patient implements Serializable {
     private static final long serialVersionUID = 4092297860583387711L;
@@ -81,14 +78,8 @@ public class Patient implements Serializable {
         this.dob = dob;
     }
 
-    public void setEmail(String email) throws NotBoundException {
-        Pattern pattern = Pattern.compile("([a-z0-9]+(\\.?[a-z0-9])*)+@(([a-z]+)\\.([a-z]+))+");
-        Matcher mather = pattern.matcher(email);
-        if (mather.find() == true) {
+    public void setEmail(String email) {
             this.email = email;
-        } else {
-            throw new NotBoundException("Not valid email");
-        }
     }
 
 
