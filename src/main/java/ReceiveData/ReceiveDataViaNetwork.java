@@ -112,21 +112,7 @@ public class ReceiveDataViaNetwork {
            return message;
        }
 
-       public User recieveUser(Socket socket)
-       {
-           User u = null;
-           try{
-               String email = dataInputStream.readUTF();
-               byte[] psw = dataInputStream.readUTF().getBytes();
-               String role = dataInputStream.readUTF();
-               Role r = new Role(role);
-               u = new User(email,psw,r);
 
-           }catch (IOException e){
-               e.printStackTrace();
-           }
-           return u;
-       }
 
        public void releaseResources(){
            try {
