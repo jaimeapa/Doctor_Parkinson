@@ -6,6 +6,8 @@ import java.io.*;
 import java.net.Socket;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class ReceiveDataViaNetwork {
@@ -15,8 +17,8 @@ public class ReceiveDataViaNetwork {
     public ReceiveDataViaNetwork(Socket socket){
         try {
             this.dataInputStream = new DataInputStream(socket.getInputStream());
-        }catch (IOException e){
-
+        }catch (IOException ex){
+            Logger.getLogger(ReceiveDataViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -44,7 +46,7 @@ public class ReceiveDataViaNetwork {
                System.out.println("All data have been correctly read.");
            } catch (IOException  ex) {
                System.out.println("Unable to read from the client.");
-               ex.printStackTrace();
+               Logger.getLogger(ReceiveDataViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
            }
 
            return doctor;
@@ -66,11 +68,13 @@ public class ReceiveDataViaNetwork {
                System.out.println("All data have been correctly read.");
            } catch (IOException  ex) {
                System.out.println("Unable to read from the client.");
-               ex.printStackTrace();
+               Logger.getLogger(ReceiveDataViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
            }
 
            return patient;
        }
+
+
        public Interpretation recieveInterpretation(){
            Interpretation interpretation = null;
 
@@ -94,7 +98,7 @@ public class ReceiveDataViaNetwork {
                System.out.println("All data have been correctly read.");
            } catch (IOException  ex) {
                System.out.println("Unable to read from the client.");
-               ex.printStackTrace();
+               Logger.getLogger(ReceiveDataViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
 
            }
 
@@ -106,7 +110,7 @@ public class ReceiveDataViaNetwork {
            try{
                message = dataInputStream.readInt();
            }catch(IOException ex){
-               ex.printStackTrace();
+               Logger.getLogger(ReceiveDataViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
            }
 
            return message;
@@ -118,7 +122,7 @@ public class ReceiveDataViaNetwork {
            try {
                dataInputStream.close();
            } catch (IOException ex) {
-               ex.printStackTrace();
+               Logger.getLogger(ReceiveDataViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
            }
        }
 
