@@ -2,7 +2,6 @@ package ReceiveData;
 
 import Pojos.Doctor;
 import Pojos.User;
-
 import java.io.*;
 import java.net.Socket;
 import java.util.logging.Level;

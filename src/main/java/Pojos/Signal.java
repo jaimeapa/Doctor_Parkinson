@@ -1,15 +1,7 @@
 package Pojos;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Signal {
     private List<Integer> values;
@@ -24,11 +16,6 @@ public class Signal {
 
     public Signal(SignalType signalType) {
         this.values = new LinkedList<>();
-        this.signalType = signalType;
-    }
-
-    public Signal(List<Integer> values, SignalType signalType) {
-        this.values = values;
         this.signalType = signalType;
     }
 

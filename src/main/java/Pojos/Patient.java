@@ -4,8 +4,6 @@ package Pojos;
 import java.rmi.NotBoundException;
 import java.time.LocalDate;
 import java.util.LinkedList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Patient  {
     private int patient_id;
@@ -16,24 +14,6 @@ public class Patient  {
     private int doctor_id;
     private LinkedList<Interpretation> interpretations;
 
-
-    public Patient(int patient_id, String name, String surname, LocalDate dob, String email,LinkedList<Symptoms>  symptoms, int doctor_id) {
-        this.patient_id = patient_id;
-        this.name = name;
-        this.surname = surname;
-        this.dob = dob;
-        this.email = email;
-        this.doctor_id = doctor_id;
-        this.interpretations= new LinkedList<>();
-    }
-
-    public Patient(String name, String surname, LocalDate dob, String email) {
-        this.name = name;
-        this.surname = surname;
-        this.dob = dob;
-        this.email = email;
-        this.interpretations= new LinkedList<>();
-    }
     public Patient(int patient_id, String name, String surname, LocalDate dob, String email) {
         this.patient_id = patient_id;
         this.name = name;
@@ -97,14 +77,6 @@ public class Patient  {
                 ", surname='" + surname + '\'' +
                 ", dob=" + dob +
                 ", email='" + email + '\'' +
-                '}';
-    }
-
-    public String toString2(){
-        return "Patient{" +
-                "patient_id=" + patient_id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname +
                 '}';
     }
 }

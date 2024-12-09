@@ -1,7 +1,6 @@
 package ReceiveData;
 
 import Pojos.*;
-
 import java.io.*;
 import java.net.Socket;
 import java.time.LocalDate;

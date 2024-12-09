@@ -16,20 +16,6 @@ public class Interpretation {
     private String interpretation;
     private List<Symptoms> symptoms;
     private String observation;
-    public static final int samplingrate = 100;
-
-
-    public Interpretation(int id, LocalDate date,String interpretation,Signal signalEMG, Signal signalEDA, int patient_id, int doctor_id, String observation) {
-        this.id = id;
-        this.date = date;
-        this.interpretation = interpretation;
-        this.symptoms = new LinkedList<>();
-        this.signalEMG = signalEMG;
-        this.signalEDA = signalEDA;
-        this.patient_id = patient_id;
-        this.doctor_id = doctor_id;
-        this.observation = observation;
-    }
 
     public Interpretation(LocalDate date, String interpretation, Signal signalEMG, Signal signalEDA, int patient_id, int doctor_id, String observation) {
         this.date = date;
@@ -40,11 +26,6 @@ public class Interpretation {
         this.patient_id = patient_id;
         this.doctor_id = doctor_id;
         this.observation = observation;
-    }
-
-    public Interpretation(LocalDate date, String interpretation) {
-        this.date = date;
-        this.interpretation = interpretation;
     }
 
     public int getId() {
@@ -177,9 +158,10 @@ public class Interpretation {
         if (!edaValues.isEmpty()) {
             average = total / edaValues.size();
         }
-        return "EDA Parkinson Analysis:\n" +
+        String message = "EDA Parkinson Analysis:\n" +
                 "Average Conductance: " + String.format("%.2f µS", average) + "\n" +
                 "Max Conductance: " + String.format("%.2f µS", max) + "\n";
+        return message;
         //return String.format("EDA Parkinson Analysis:\n Average: %.2f µV, Max: %.2f µV", average, max);
     }
 
@@ -192,14 +174,6 @@ public class Interpretation {
                 "\n Your observations: '" + observation + '\'' +
                 "\n Doctor´s notes: '" + interpretation + '\'';
     }
-
-    public String toString2() {
-        return "Interpretation{" +
-                "id='" + id + '\'' +
-                ",date=" + date + '\'' +
-                '}';
-    }
-
 
 }
 
