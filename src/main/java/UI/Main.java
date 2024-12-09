@@ -243,8 +243,8 @@ public class Main {
                     }
                 }
                 System.out.println(interpretation.toString());
-                System.out.println(interpretation.analyzeBitalinoData(interpretation.getSignalEDA().getValues(), Signal.SignalType.EDA));
-                System.out.println(interpretation.analyzeBitalinoData(interpretation.getSignalEMG().getValues(), Signal.SignalType.EMG));
+                interpretation.analyzeBitalinoData(interpretation.getSignalEMG().getValues(), Signal.SignalType.EMG);
+                interpretation.analyzeBitalinoData(interpretation.getSignalEDA().getValues(), Signal.SignalType.EDA);
                 String interpretation2 = Utilities.readString("Write here your interpretation: ");
                 sendDataViaNetwork.sendStrings(interpretation2);
             }

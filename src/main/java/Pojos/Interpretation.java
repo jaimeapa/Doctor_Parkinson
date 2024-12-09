@@ -1,9 +1,9 @@
 package Pojos;
 
+
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 import Pojos.Signal.SignalType;
 
 public class Interpretation {
@@ -104,65 +104,56 @@ public class Interpretation {
         this.observation = observation;
     }
 
-    public String analyzeBitalinoData(List<Integer> rawValues, SignalType signalType) {
+    public void analyzeBitalinoData(List<Integer> values, SignalType signalType) {
         List<Integer> filteredValues = new LinkedList<>();
-        for (Integer value : rawValues) {
+        for (Integer value : values) {
             if (value >= 50 && value <= 900) {
                 filteredValues.add(value);
             }
         }
         if (filteredValues.isEmpty()) {
-            return "No valid data to analyze.";
+            System.out.println("No valid data to analyze.");
         }
         if (signalType == SignalType.EMG) {
-            return analyzeEMGForParkinson(filteredValues);
+            double average= calculateAverage(filteredValues);
+            int max= calculateMax(filteredValues);
+            System.out.println("EMG average value= " + average);
+            System.out.println("EMG max value= " + max);
         } else if (signalType == SignalType.EDA) {
-            return analyzeEDAForParkinson(filteredValues);
+            double average2= calculateAverage(filteredValues);
+            int max2= calculateMax(filteredValues);
+            System.out.println("EDA average value= " + average2);
+            System.out.println("EDA max value= " + max2);
         } else {
-            return "Unknown signal type.";
+            System.out.println("Unknown signal type.");
         }
     }
 
 
-
-    private String analyzeEMGForParkinson(List<Integer> emgValues) {
+    private double calculateAverage(List<Integer> Values) {
+        double average;
+        if (Values == null || Values.isEmpty()) {
+            return 0.0;
+        }
         double total = 0;
-        double max = 0;
-        for (int value : emgValues) {
+        for (int value : Values) {
             total += value;
-            if (value > max) {
-                max = value;
-            }
         }
-        double average = 0;
-        if (!emgValues.isEmpty()) {
-            average = total / emgValues.size();
-        }
-        return "EMG Parkinson Analysis:\n" +
-                "Average Amplitude: " + String.format("%.2f µV", average) + "\n" +
-                "Max Amplitude: " + String.format("%.2f µV", max) + "\n";
-        //return String.format("EMG Parkinson Analysis:\n Average: %.2f µV, Max: %.2f µV", average, max);
+        average= total/Values.size();
+        return average;
     }
 
-
-    private String analyzeEDAForParkinson(List<Integer> edaValues) {
-        double total = 0;
-        double max = 0;
-        for (int value : edaValues) {
-            total += value;
+    private int calculateMax(List<Integer> Values) {
+        if (Values == null || Values.isEmpty()) {
+            return 0;
+        }
+        int max = Integer.MIN_VALUE;
+        for (int value : Values) {
             if (value > max) {
                 max = value;
             }
         }
-        double average = 0;
-        if (!edaValues.isEmpty()) {
-            average = total / edaValues.size();
-        }
-        String message = "EDA Parkinson Analysis:\n" +
-                "Average Conductance: " + String.format("%.2f µS", average) + "\n" +
-                "Max Conductance: " + String.format("%.2f µS", max) + "\n";
-        return message;
-        //return String.format("EDA Parkinson Analysis:\n Average: %.2f µV, Max: %.2f µV", average, max);
+        return max;
     }
 
     @Override
