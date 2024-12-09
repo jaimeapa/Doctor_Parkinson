@@ -9,6 +9,8 @@ import java.io.*;
 import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class LogInMenu {
@@ -75,8 +77,8 @@ public class LogInMenu {
                     Doctor doctor = receiveDataViaNetwork.receiveDoctor();
                     if (doctor != null) {
                         System.out.println("Log in successful");
-                        System.out.println(doctor.toString());
-                        clientDoctorMenu(doctor, sendDataViaNetwork, receiveDataViaNetwork);
+                        System.out.println(doctor);
+                        clientDoctorMenu(sendDataViaNetwork, receiveDataViaNetwork);
                     }
                 } catch (IOException e) {
                     System.out.println("Log in problem");
@@ -90,7 +92,7 @@ public class LogInMenu {
     }
 
     private static int printLogInMenu() {
-        System.out.println("\n\nDoctor Menu:\n"
+        System.out.println("\n\n Doctor Menu:\n"
                 + "\n1. Register"
                 + "\n2. Log In"
                 + "\n3. Exit"
@@ -105,11 +107,11 @@ public class LogInMenu {
         String name = Utilities.readString("Enter your name: ");
         String surname = Utilities.readString("Enter your last name: ");
         LocalDate dob = Utilities.readDate("Enter your date of birth: ");
-        System.out.println(dob.toString());
+        System.out.println(dob);
         String email = Utilities.readString("Enter your email: ");
         doctor = new Doctor(1,name,surname,dob,email);
         String psw = Utilities.readString("Password: ");
-        byte[] password = null;
+        byte[] password;
         Role role = new Role("doctor");
         try {
             password = EncryptPassword.encryptPassword(psw);
@@ -122,14 +124,14 @@ public class LogInMenu {
             u = new User(email, password, role);
             sendDataViaNetwork.sendDoctor(doctor);
             sendDataViaNetwork.sendUser(u);
-            clientDoctorMenu(doctor, sendDataViaNetwork, receiveDataViaNetwork);
+            clientDoctorMenu(sendDataViaNetwork, receiveDataViaNetwork);
         }else{
             sendDataViaNetwork.sendStrings("ERROR");
         }
     }
 
-    public static void clientDoctorMenu(Doctor doctor_logedIn, SendDataViaNetwork sendDataViaNetwork, ReceiveDataViaNetwork receiveDataViaNetwork) throws IOException {
-        Doctor doctor = doctor_logedIn;
+    public static void clientDoctorMenu(SendDataViaNetwork sendDataViaNetwork, ReceiveDataViaNetwork receiveDataViaNetwork) throws IOException {
+
         boolean menu = true;
         while(menu){
             switch(printDoctorMenu()){
@@ -162,7 +164,7 @@ public class LogInMenu {
         return Utilities.readInteger("What would you want to do?\n");
     }
 
-    private static void viewDetailsOfPatient(SendDataViaNetwork sendDataViaNetwork, ReceiveDataViaNetwork receiveDataViaNetwork) throws IOException {
+    private static void viewDetailsOfPatient(SendDataViaNetwork sendDataViaNetwork, ReceiveDataViaNetwork receiveDataViaNetwork){
         Patient patient;
         int size = receiveDataViaNetwork.receiveInt();
         System.out.println("Receiving " + size + " patients");
@@ -241,8 +243,8 @@ public class LogInMenu {
                     }
                 }
                 System.out.println(interpretation.toString());
-                interpretation.analyzeBitalinoData(interpretation.getSignalEDA().getValues(), Signal.SignalType.EDA);
-                interpretation.analyzeBitalinoData(interpretation.getSignalEMG().getValues(), Signal.SignalType.EMG);
+                System.out.println(interpretation.analyzeBitalinoData(interpretation.getSignalEDA().getValues(), Signal.SignalType.EDA));
+                System.out.println(interpretation.analyzeBitalinoData(interpretation.getSignalEMG().getValues(), Signal.SignalType.EMG));
                 String interpretation2 = Utilities.readString("Write here your interpretation: ");
                 sendDataViaNetwork.sendStrings(interpretation2);
             }
@@ -258,7 +260,7 @@ public class LogInMenu {
         try {
             socket.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(LogInMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
