@@ -11,10 +11,19 @@ import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+/**
+ * Entry point for the client-side application.
+ * Handles the user interface and communication with the server for doctor and patient management.
+ */
 
 public class Main {
-
+    /**
+     * The main method that serves as the entry point of the application.
+     * Establishes a connection to the server, provides menu options, and processes user inputs.
+     *
+     * @param args command-line arguments (not used).
+     * @throws IOException if there is an I/O error during network communication.
+     */
 
     public static void main(String[] args) throws IOException {
         while(true) {
@@ -55,6 +64,14 @@ public class Main {
             }
         }
     }
+    /**
+     * Handles the log-in process for a doctor.
+     * Sends log-in details to the server and handles the server's response.
+     *
+     * @param sendDataViaNetwork   the object used to send data to the server.
+     * @param receiveDataViaNetwork the object used to receive data from the server.
+     * @throws IOException if there is an I/O error during network communication.
+     */
 
     private static void logInMenu(SendDataViaNetwork sendDataViaNetwork, ReceiveDataViaNetwork receiveDataViaNetwork) throws IOException{
         String email = Utilities.readString("Email: ");
@@ -90,6 +107,11 @@ public class Main {
             sendDataViaNetwork.sendStrings("ERROR");
         }
     }
+    /**
+     * Prints the log-in menu and prompts the user for their choice.
+     *
+     * @return the user's choice as an integer.
+     */
 
     private static int printLogInMenu() {
         System.out.println("\n\n Doctor Menu:\n"
@@ -99,6 +121,14 @@ public class Main {
         );
         return Utilities.readInteger("What would you want to do?\n");
     }
+    /**
+     * Handles the doctor registration process.
+     * Collects doctor details from the user and sends them to the server.
+     *
+     * @param sendDataViaNetwork   the object used to send data to the server.
+     * @param receiveDataViaNetwork the object used to receive data from the server.
+     * @throws IOException if there is an I/O error during network communication.
+     */
 
     public static void registerDoctor(SendDataViaNetwork sendDataViaNetwork, ReceiveDataViaNetwork receiveDataViaNetwork) throws IOException
     {
@@ -129,6 +159,13 @@ public class Main {
             sendDataViaNetwork.sendStrings("ERROR");
         }
     }
+    /**
+     * Handles the doctor menu options after successful login.
+     *
+     * @param sendDataViaNetwork   the object used to send data to the server.
+     * @param receiveDataViaNetwork the object used to receive data from the server.
+     * @throws IOException if there is an I/O error during network communication.
+     */
 
     public static void clientDoctorMenu(SendDataViaNetwork sendDataViaNetwork, ReceiveDataViaNetwork receiveDataViaNetwork) throws IOException {
 
@@ -154,6 +191,11 @@ public class Main {
             }
         }
     }
+    /**
+     * Prints the doctor menu and prompts the user for their choice.
+     *
+     * @return the user's choice as an integer.
+     */
 
     private static int printDoctorMenu(){
         System.out.println("\n\nDiagnosis Menu:\n"
@@ -163,6 +205,13 @@ public class Main {
         );
         return Utilities.readInteger("What would you want to do?\n");
     }
+    /**
+     * Handles the patient registration process.
+     * Collects patient details from the user and sends them to the server.
+     *
+     * @param sendDataViaNetwork   the object used to send data to the server.
+     * @param receiveDataViaNetwork the object used to receive data from the server.
+     */
 
     private static void viewDetailsOfPatient(SendDataViaNetwork sendDataViaNetwork, ReceiveDataViaNetwork receiveDataViaNetwork){
         Patient patient;
@@ -170,7 +219,7 @@ public class Main {
         System.out.println("Receiving " + size + " patients");
         if(size > 0) {
             for (int i = 0; i < size; i++) {
-                patient = receiveDataViaNetwork.recievePatient();
+                patient = receiveDataViaNetwork.receivePatient();
                 System.out.println(i + 1 + ". " + patient.getSurname() + ", " + patient.getName());
             }
             boolean mandarID = true;
@@ -185,19 +234,27 @@ public class Main {
                     System.out.println("Select the id of the patient from which you want to see the information\n");
                 }
             }
-            patient = receiveDataViaNetwork.recievePatient();
+            patient = receiveDataViaNetwork.receivePatient();
             System.out.println(patient.toString());
         }else{
             System.out.println("You have no patients assigned to you");
         }
     }
+    /**
+     * Handles the interpretation process.
+     * Collects interpretation details from the user and sends them to the server.
+     *
+     * @param sendDataViaNetwork   the object used to send data to the server.
+     * @param receiveDataViaNetwork the object used to receive data from the server.
+     * @throws IOException if there is an I/O error during network communication.
+     */
 
     private static void makeAnInterpretation(SendDataViaNetwork sendDataViaNetwork, ReceiveDataViaNetwork receiveDataViaNetwork) throws IOException {
         Interpretation interpretation;
         int size = receiveDataViaNetwork.receiveInt();
         if(size > 0) {
             for (int i = 0; i < size; i++) {
-                Patient patient2 = receiveDataViaNetwork.recievePatient();
+                Patient patient2 = receiveDataViaNetwork.receivePatient();
                 System.out.println(i + 1 + ". " + patient2.getSurname() + ", " + patient2.getName());
             }
             boolean mandarID = true;
@@ -218,7 +275,7 @@ public class Main {
             } else {
                 int size2 = receiveDataViaNetwork.receiveInt();
                 for (int i = 0; i < size2; i++) {
-                    interpretation = receiveDataViaNetwork.recieveInterpretation();
+                    interpretation = receiveDataViaNetwork.receiveInterpretation();
                     System.out.println(i + 1 + ". " + interpretation.getDate());
                 }
                 boolean mandarID2 = true;
@@ -233,7 +290,7 @@ public class Main {
                         System.out.println("Select the id of the report of the patient from which you want to see the information and make an interpretation\n");
                     }
                 }
-                interpretation = receiveDataViaNetwork.recieveInterpretation();
+                interpretation = receiveDataViaNetwork.receiveInterpretation();
                 int size3 = receiveDataViaNetwork.receiveInt();
                 if(size3 > 0) {
                     for (int i = 0; i < size3; i++) {
@@ -252,6 +309,13 @@ public class Main {
             System.out.println("You have no patients assigned to you");
         }
     }
+    /**
+     * Releases the resources used by the client application.
+     *
+     * @param socket              the socket used to communicate with the server.
+     * @param sendDataViaNetwork   the object used to send data to the server.
+     * @param receiveDataViaNetwork the object used to receive data from the server.
+     */
 
 
     private static void releaseResources(Socket socket, SendDataViaNetwork sendDataViaNetwork, ReceiveDataViaNetwork receiveDataViaNetwork){
