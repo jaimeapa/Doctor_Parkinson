@@ -9,16 +9,10 @@ import java.io.*;
 import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
-import java.util.LinkedList;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class LogInMenu {
-    //private static Socket socket;
-    //private static SendDataViaNetwork sendDataViaNetwork;
-    //private static ReceiveDataViaNetwork receiveDataViaNetwork;
+
 
     public static void main(String[] args) throws IOException {
         while(true) {

@@ -1,7 +1,6 @@
 package Pojos;
 
 
-import java.io.Serializable;
 import java.rmi.NotBoundException;
 import java.util.Arrays;
 import java.util.Objects;
@@ -9,9 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class User implements Serializable {
-
-	private static final long serialVersionUID = 5280902101084365639L;
+public class User  {
 	private Integer id;
 	private String email;
 	private byte[] password;

@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 public class SendDataViaNetwork {
 
-    private static DataOutputStream dataOutputStream;
+    private  DataOutputStream dataOutputStream;
 
     public SendDataViaNetwork(Socket socket){
         try {
@@ -31,33 +31,18 @@ public class SendDataViaNetwork {
 
     }
     public void sendInt(Integer message) throws IOException{
-        //OutputStream outputStream = socket.getOutputStream();
-        //DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
+
         try{
-            //DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
             dataOutputStream.writeInt(message);
-            //releaseResources(dataOutputStream);
         }catch (IOException ex){
             ex.printStackTrace();
         }
 
-        //releaseResourcesInt(dataOutputStream,outputStream);
     }
 
 
     public void sendPatient(Patient patient)
     {
-        //OutputStream outputStream = null;
-        //ObjectOutputStream objectOutputStream = null;
-
-        /*try {
-            //socket = new Socket("localhost", 8080);
-            outputStream = socket.getOutputStream();
-        } catch (IOException ex) {
-            System.out.println("It was not possible to connect to the server.");
-            System.exit(-1);
-            Logger.getLogger(SendDataViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
         try {
             //DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
             dataOutputStream.writeInt(patient.getPatient_id());

@@ -1,6 +1,5 @@
 package UI;
 
-import Pojos.Patient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
