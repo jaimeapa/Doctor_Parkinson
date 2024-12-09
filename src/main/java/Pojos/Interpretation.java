@@ -160,6 +160,7 @@ public class Interpretation {
         return "EMG Parkinson Analysis:\n" +
                 "Average Amplitude: " + String.format("%.2f µV", average) + "\n" +
                 "Max Amplitude: " + String.format("%.2f µV", max) + "\n";
+        //return String.format("EMG Parkinson Analysis:\n Average: %.2f µV, Max: %.2f µV", average, max);
     }
 
 
@@ -179,6 +180,7 @@ public class Interpretation {
         return "EDA Parkinson Analysis:\n" +
                 "Average Conductance: " + String.format("%.2f µS", average) + "\n" +
                 "Max Conductance: " + String.format("%.2f µS", max) + "\n";
+        //return String.format("EDA Parkinson Analysis:\n Average: %.2f µV, Max: %.2f µV", average, max);
     }
 
     @Override
