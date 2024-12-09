@@ -21,7 +21,7 @@ public class ReceiveDataViaNetwork {
     }
 
     public String receiveString() throws IOException {
-           String information = "";
+           String information ;
            information = dataInputStream.readUTF();
 
            return information;
@@ -40,14 +40,11 @@ public class ReceiveDataViaNetwork {
                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                LocalDate dob = LocalDate.parse(date, formatter);
                doctor = new Doctor(id,name,surname,dob,email);
-               //releaseResources(dataInputStream);
-               //patient = (Patient) objectInputStream.readObject();
            } catch (EOFException ex) {
                System.out.println("All data have been correctly read.");
            } catch (IOException  ex) {
                System.out.println("Unable to read from the client.");
                ex.printStackTrace();
-               //Logger.getLogger(ReceiveClientViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
            }
 
            return doctor;
@@ -135,7 +132,6 @@ public class ReceiveDataViaNetwork {
            try {
                dataInputStream.close();
            } catch (IOException ex) {
-               //Logger.getLogger(SendBinaryDataViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
                ex.printStackTrace();
            }
        }
