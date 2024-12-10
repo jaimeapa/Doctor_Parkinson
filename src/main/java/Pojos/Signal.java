@@ -7,9 +7,15 @@ import java.util.List;
  * Represents a signal with the type and the list of integer values.
  */
 public class Signal {
+    /**
+     * List of integer values representing the signal data.
+     */
     private List<Integer> values;
-    private SignalType signalType;
 
+    /**
+     * Type of the signal, indicating whether it is an EMG or EDA signal.
+     */
+    private SignalType signalType;
     /**
      * Enum representing the type of the signal (EDA or EMG).
      */

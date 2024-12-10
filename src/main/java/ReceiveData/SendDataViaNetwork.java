@@ -14,6 +14,9 @@ import java.util.logging.Logger;
  */
 public class SendDataViaNetwork {
 
+    /**
+     * DataOutputStream used to write binary data to an output stream.
+     */
     private DataOutputStream dataOutputStream;
 
     /**

@@ -15,6 +15,9 @@ import java.util.logging.Logger;
  */
 public class ReceiveDataViaNetwork {
 
+    /**
+     * DataInputStream used to read binary data from an input stream.
+     */
     private DataInputStream dataInputStream;
 
     /**

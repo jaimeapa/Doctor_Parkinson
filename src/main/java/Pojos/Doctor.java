@@ -7,14 +7,41 @@ import java.util.LinkedList;
  * Represents a doctor with personal information and a list of assigned patients.
  */
 public class Doctor {
+    /**
+     * Unique identifier for the doctor.
+     */
     private int doctor_id;
-    private String name;
-    private String surname;
-    private LocalDate dob;
-    private String email;
-    private Integer userId;
-    private LinkedList<Patient> patients;
 
+    /**
+     * First name of the doctor.
+     */
+    private String name;
+
+    /**
+     * Last name of the doctor.
+     */
+    private String surname;
+
+    /**
+     * Date of birth of the doctor.
+     */
+    private LocalDate dob;
+
+    /**
+     * Email address of the doctor.
+     */
+    private String email;
+
+    /**
+     * Identifier for the associated user account of the doctor.
+     * Can be null if not linked to a user account.
+     */
+    private Integer userId;
+
+    /**
+     * List of patients assigned to the doctor.
+     */
+    private LinkedList<Patient> patients;
     /**
      * Constructs a Doctor with the specified details.
      *

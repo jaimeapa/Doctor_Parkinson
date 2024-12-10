@@ -8,8 +8,20 @@ import java.util.Objects;
  */
 public class Role {
 
+    /**
+     * Unique identifier for the role.
+     * Can be null if not yet persisted in the database.
+     */
     private Integer id;
+
+    /**
+     * Name of the role.
+     */
     private String name;
+
+    /**
+     * List of users assigned to this role.
+     */
     private List<User> users;
 
     /**

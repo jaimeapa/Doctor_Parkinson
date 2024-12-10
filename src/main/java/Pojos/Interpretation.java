@@ -9,14 +9,49 @@ import Pojos.Signal.SignalType;
  * Represents an interpretation of medical data, including signals, symptoms, and observations.
  */
 public class Interpretation {
+    /**
+     * Unique identifier for the medical report.
+     */
     private int id;
+
+    /**
+     * Date when the medical report was created.
+     */
     private LocalDate date;
+
+    /**
+     * Unique identifier for the patient associated with the report.
+     */
     private int patient_id;
+
+    /**
+     * Unique identifier for the doctor who created the report.
+     */
     private int doctor_id;
+
+    /**
+     * EMG (Electromyography) signal associated with the report.
+     */
     private Signal signalEMG;
+
+    /**
+     * EDA (Electrodermal Activity) signal associated with the report.
+     */
     private Signal signalEDA;
+
+    /**
+     * Doctor's interpretation or analysis of the patient's condition.
+     */
     private String interpretation;
+
+    /**
+     * List of symptoms reported or observed during the evaluation.
+     */
     private List<Symptoms> symptoms;
+
+    /**
+     * Additional observations made by the doctor or medical staff.
+     */
     private String observation;
 
     /**

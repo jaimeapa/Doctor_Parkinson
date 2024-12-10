@@ -4,7 +4,14 @@ package Pojos;
  * Represents a symptom with a unique identifier and a name.
  */
 public class Symptoms {
+    /**
+     * Unique identifier for the entity.
+     */
     private int id;
+
+    /**
+     * Name of the entity.
+     */
     private String name;
 
     /**

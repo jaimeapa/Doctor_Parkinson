@@ -7,9 +7,25 @@ import java.util.Objects;
  * Represents a user with an ID, email, password, and an associated role.
  */
 public class User {
+	/**
+	 * Unique identifier for the user.
+	 * Can be null if not yet persisted in the database.
+	 */
 	private Integer id;
+
+	/**
+	 * Email address of the user.
+	 */
 	private String email;
+
+	/**
+	 * Password of the user, stored as a byte array (e.g., hashed password).
+	 */
 	private byte[] password;
+
+	/**
+	 * Role assigned to the user, determining their permissions and access level.
+	 */
 	private Role role;
 
 	/**
