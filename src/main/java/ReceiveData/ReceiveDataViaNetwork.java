@@ -51,23 +51,16 @@ public class ReceiveDataViaNetwork {
      *
      * @return the received {@link Doctor} object, or {@code null} if an error occurs.
      */
-    public Doctor receiveDoctor() {
-        Doctor doctor = null;
-        try {
-            int id = dataInputStream.readInt();
-            String name = dataInputStream.readUTF();
-            String surname = dataInputStream.readUTF();
-            String date = dataInputStream.readUTF();
-            String email = dataInputStream.readUTF();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate dob = LocalDate.parse(date, formatter);
-            doctor = new Doctor(id, name, surname, dob, email);
-        } catch (EOFException ex) {
-            System.out.println("All data have been correctly read.");
-        } catch (IOException ex) {
-            System.out.println("Unable to read from the client.");
-            Logger.getLogger(ReceiveDataViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public Doctor receiveDoctor() throws IOException{
+        Doctor doctor;
+        int id = dataInputStream.readInt();
+        String name = dataInputStream.readUTF();
+        String surname = dataInputStream.readUTF();
+        String date = dataInputStream.readUTF();
+        String email = dataInputStream.readUTF();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate dob = LocalDate.parse(date, formatter);
+        doctor = new Doctor(id, name, surname, dob, email);
         return doctor;
     }
 
@@ -76,23 +69,16 @@ public class ReceiveDataViaNetwork {
      *
      * @return the received {@link Patient} object, or {@code null} if an error occurs.
      */
-    public Patient receivePatient() {
+    public Patient receivePatient() throws IOException{
         Patient patient = null;
-        try {
-            int id = dataInputStream.readInt();
-            String name = dataInputStream.readUTF();
-            String surname = dataInputStream.readUTF();
-            String date = dataInputStream.readUTF();
-            String email = dataInputStream.readUTF();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate dob = LocalDate.parse(date, formatter);
-            patient = new Patient(id, name, surname, dob, email);
-        } catch (EOFException ex) {
-            System.out.println("All data have been correctly read.");
-        } catch (IOException ex) {
-            System.out.println("Unable to read from the client.");
-            Logger.getLogger(ReceiveDataViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        int id = dataInputStream.readInt();
+        String name = dataInputStream.readUTF();
+        String surname = dataInputStream.readUTF();
+        String date = dataInputStream.readUTF();
+        String email = dataInputStream.readUTF();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate dob = LocalDate.parse(date, formatter);
+        patient = new Patient(id, name, surname, dob, email);
         return patient;
     }
 
@@ -101,29 +87,23 @@ public class ReceiveDataViaNetwork {
      *
      * @return the received {@link Interpretation} object, or {@code null} if an error occurs.
      */
-    public Interpretation receiveInterpretation() {
-        Interpretation interpretation = null;
-        try {
-            String stringDate = dataInputStream.readUTF();
-            int doctor_id = dataInputStream.readInt();
-            String stringEMG = dataInputStream.readUTF();
-            int patient_id = dataInputStream.readInt();
-            String stringEDA = dataInputStream.readUTF();
-            String observation = dataInputStream.readUTF();
-            String interpretation1 = dataInputStream.readUTF();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate date = LocalDate.parse(stringDate, formatter);
-            Signal signalEMG = new Signal(Signal.SignalType.EMG);
-            signalEMG.setValuesEMG(stringEMG);
-            Signal signalEDA = new Signal(Signal.SignalType.EDA);
-            signalEDA.setValuesEDA(stringEDA);
-            interpretation = new Interpretation(date, interpretation1, signalEMG, signalEDA, patient_id, doctor_id, observation);
-        } catch (EOFException ex) {
-            System.out.println("All data have been correctly read.");
-        } catch (IOException ex) {
-            System.out.println("Unable to read from the client.");
-            Logger.getLogger(ReceiveDataViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public Interpretation receiveInterpretation() throws IOException{
+        Interpretation interpretation;
+        String stringDate = dataInputStream.readUTF();
+        int doctor_id = dataInputStream.readInt();
+        String stringEMG = dataInputStream.readUTF();
+        int patient_id = dataInputStream.readInt();
+        String stringEDA = dataInputStream.readUTF();
+        String observation = dataInputStream.readUTF();
+        String interpretation1 = dataInputStream.readUTF();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(stringDate, formatter);
+        Signal signalEMG = new Signal(Signal.SignalType.EMG);
+        signalEMG.setValuesEMG(stringEMG);
+        Signal signalEDA = new Signal(Signal.SignalType.EDA);
+        signalEDA.setValuesEDA(stringEDA);
+        interpretation = new Interpretation(date, interpretation1, signalEMG, signalEDA, patient_id, doctor_id, observation);
+
         return interpretation;
     }
 
@@ -132,13 +112,9 @@ public class ReceiveDataViaNetwork {
      *
      * @return the received integer, or a default value of 10 if an error occurs.
      */
-    public int receiveInt() {
-        int message = 10;
-        try {
-            message = dataInputStream.readInt();
-        } catch (IOException ex) {
-            Logger.getLogger(ReceiveDataViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public int receiveInt() throws IOException{
+        int message = dataInputStream.readInt();
+
         return message;
     }
 

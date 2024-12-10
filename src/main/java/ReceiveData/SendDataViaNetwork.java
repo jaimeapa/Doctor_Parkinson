@@ -48,12 +48,8 @@ public class SendDataViaNetwork {
      *
      * @param message the integer to send.
      */
-    public void sendInt(Integer message) {
-        try {
-            dataOutputStream.writeInt(message);
-        } catch (IOException ex) {
-            Logger.getLogger(SendDataViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void sendInt(Integer message) throws IOException{
+        dataOutputStream.writeInt(message);
     }
 
     /**
@@ -74,17 +70,12 @@ public class SendDataViaNetwork {
      *
      * @param doctor the {@link Doctor} object to send.
      */
-    public void sendDoctor(Doctor doctor) {
-        try {
-            dataOutputStream.writeInt(doctor.getDoctor_id());
-            dataOutputStream.writeUTF(doctor.getName());
-            dataOutputStream.writeUTF(doctor.getSurname());
-            dataOutputStream.writeUTF(doctor.getDob().toString());
-            dataOutputStream.writeUTF(doctor.getEmail());
-        } catch (IOException ex) {
-            System.out.println("Unable to write the objects on the server.");
-            Logger.getLogger(SendDataViaNetwork.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void sendDoctor(Doctor doctor) throws IOException{
+        dataOutputStream.writeInt(doctor.getDoctor_id());
+        dataOutputStream.writeUTF(doctor.getName());
+        dataOutputStream.writeUTF(doctor.getSurname());
+        dataOutputStream.writeUTF(doctor.getDob().toString());
+        dataOutputStream.writeUTF(doctor.getEmail());
     }
 
     /**
